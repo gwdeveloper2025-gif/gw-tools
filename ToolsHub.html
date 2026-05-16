@@ -1,0 +1,233 @@
+<style>
+    :root {
+        --primary-color: #1a365d;
+        --secondary-color: #3182ce;
+        --background-color: transparent;
+        --card-bg: #ffffff;
+        --text-color: #2d3748;
+        --border-radius: 16px;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        scroll-behavior: smooth;
+    }
+
+    .nav-bar {
+        position: sticky;
+        top: 0;
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        z-index: 1000;
+        padding: 15px 0;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .nav-btn {
+        padding: 8px 20px;
+        border-radius: 30px;
+        border: 2px solid var(--secondary-color);
+        background: white;
+        color: var(--secondary-color);
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.85rem;
+        outline: none;
+    }
+
+    .nav-btn:hover { background-color: #ebf8ff; }
+    .nav-btn.active { background-color: var(--secondary-color); color: white; }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px 15px 60px;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+        color: var(--primary-color);
+        margin: 40px 0 25px;
+        padding-bottom: 8px;
+        border-bottom: 4px solid var(--secondary-color);
+        display: inline-block;
+        font-weight: 800;
+    }
+
+    .tool-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 30px;
+        margin-bottom: 20px;
+    }
+
+    .tool-card {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid #edf2f7;
+    }
+
+    .tool-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+        border-color: var(--secondary-color);
+    }
+
+    .tool-image {
+        width: 100%;
+        height: 180px;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        border-bottom: 1px solid #f0f4f8;
+        padding: 25px;
+        box-sizing: border-box;
+    }
+
+    .tool-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .tool-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+    .tool-dept { text-transform: uppercase; font-size: 0.75rem; font-weight: 800; letter-spacing: 1.2px; color: var(--secondary-color); margin-bottom: 10px; }
+    .tool-title { font-size: 1.4rem; font-weight: 800; color: var(--primary-color); margin-bottom: 12px; }
+    .tool-description { font-size: 1rem; color: #4a5568; line-height: 1.5; margin-bottom: 20px; }
+    .btn-access { margin-top: auto; background-color: var(--primary-color); color: white; text-align: center; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; }
+
+    @media (max-width: 600px) {
+        .tool-grid { grid-template-columns: 1fr; }
+        .nav-bar { padding: 10px 5px; gap: 8px; }
+        .nav-btn { padding: 6px 12px; font-size: 0.75rem; }
+    }
+</style>
+
+<nav class="nav-bar">
+    <button class="nav-btn active" id="btn-all" onclick="filterTools('all')">ALL</button>
+    <button class="nav-btn" id="btn-bd" onclick="filterTools('bd')">BD & SALES</button>
+    <button class="nav-btn" id="btn-project" onclick="filterTools('project')">PROJECT</button>
+    <button class="nav-btn" id="btn-marketing" onclick="filterTools('marketing')">MARKETING</button>
+    <button class="nav-btn" id="btn-common" onclick="filterTools('common')">COMMON</button>
+</nav>
+
+<div class="container">
+    <div class="category-section" id="section-bd">
+        <div class="section-title">Business Development & Sales</div>
+        <div class="tool-grid">
+            <a href="https://dabby.io/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="dabby.img.png" alt="Dabby"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก BD</div>
+                    <div class="tool-title">Dabby.io</div>
+                    <div class="tool-description">ระบบ AI Engine สำหรับจัดการ Chatbot</div>
+                    <div class="btn-access">เข้าสู่ระบบ Dabby</div>
+                </div>
+            </a>
+            <a href="https://manager.line.biz/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="line.img.svg" alt="Line"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก BD, Sales</div>
+                    <div class="tool-title">Line OA</div>
+                    <div class="tool-description">Official Account Manager</div>
+                    <div class="btn-access">เปิด Line Manager</div>
+                </div>
+            </a>
+            <a href="https://salegoodwork-2026.atlassian.net/jira/for-you" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="jira.img.png" alt="Jira"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก BD, Marketing</div>
+                    <div class="tool-title">Jira Software</div>
+                    <div class="tool-description">ติดตามงานโปรเจกต์และจัดการ Task</div>
+                    <div class="btn-access">เปิดหน้างาน Jira</div>
+                </div>
+            </a>
+            <a href="http://www.calloncloud.it/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="calloncloud.img.png" alt="CallOnCloud"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก BD, Sales</div>
+                    <div class="tool-title">Call On Cloud</div>
+                    <div class="tool-description">ระบบจัดการสายโทรศัพท์บนคลาวด์</div>
+                    <div class="btn-access">เปิดระบบ Call</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="category-section" id="section-project">
+        <div class="section-title">Project Management</div>
+        <div class="tool-grid">
+            <a href="https://trello.com/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="trello.img.png" alt="Trello"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก Project</div>
+                    <div class="tool-title">Trello</div>
+                    <div class="tool-description">บอร์ดจัดการงานภาพรวม</div>
+                    <div class="btn-access">เปิดบอร์ด Trello</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="category-section" id="section-marketing">
+        <div class="section-title">Marketing</div>
+        <div class="tool-grid">
+            <a href="https://miro.com/th/" target="_blank" class="tool-card">
+                <div class="tool-image"><div style="font-size: 4rem;">🎨</div></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก Marketing</div>
+                    <div class="tool-title">Miro</div>
+                    <div class="tool-description">ไวท์บอร์ดออนไลน์สำหรับระดมสมอง</div>
+                    <div class="btn-access">เปิด Miro</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="category-section" id="section-common">
+        <div class="section-title">Common Tools</div>
+        <div class="tool-grid">
+            <a href="https://chatgpt.com/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="chatgpt.img.svg" alt="ChatGPT"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">Common (ทุกแผนก)</div>
+                    <div class="tool-title">Chat GPT</div>
+                    <div class="tool-description">ผู้ช่วยอัจฉริยะสำหรับหาข้อมูล</div>
+                    <div class="btn-access">คุยกับ ChatGPT</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterTools(category) {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        const activeBtn = document.getElementById('btn-' + category);
+        if (activeBtn) activeBtn.classList.add('active');
+        document.querySelectorAll('.category-section').forEach(s => {
+            s.style.display = (category === 'all' || s.id === 'section-' + category) ? 'block' : 'none';
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
