@@ -13,7 +13,36 @@
     <div class="login-box">
         <h2>GW Tools Hub</h2>
         <input type="password" id="password-input" placeholder="Enter Password" autofocus>
+        
+        <div style="margin-bottom: 20px; text-align: left; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="remember-me" style="width: auto; margin: 0; cursor: pointer;">
+            <label for="remember-me" style="font-size: 0.9rem; color: #4a5568; cursor: pointer;">Remember Me</label>
+        </div>
+
         <button onclick="checkPassword()">Login</button>
+    </div>
+</div>
+
+<!-- Custom Alert Modal (Error) -->
+<div id="custom-alert" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
+    <div class="login-box" style="padding: 30px; border-top: 5px solid #e53e3e;">
+        <div style="font-size: 3rem; margin-bottom: 10px;">❌</div>
+        <h3 style="margin-bottom: 15px; color: #2d3748;">รหัสผ่านไม่ถูกต้อง!</h3>
+        <p style="color: #718096; margin-bottom: 25px;">กรุณาตรวจสอบและลองใหม่อีกครั้ง</p>
+        <button onclick="closeAlert()" style="background: #e53e3e;">ตกลง</button>
+    </div>
+</div>
+
+<!-- Logout Confirmation Modal -->
+<div id="logout-confirm" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
+    <div class="login-box" style="padding: 30px; border-top: 5px solid var(--secondary-color);">
+        <div style="font-size: 3rem; margin-bottom: 10px;">👋</div>
+        <h3 style="margin-bottom: 15px; color: #2d3748;">ต้องการออกจากระบบ?</h3>
+        <p style="color: #718096; margin-bottom: 25px;">คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบในตอนนี้?</p>
+        <div style="display: flex; gap: 10px;">
+            <button onclick="closeLogoutConfirm()" style="background: #edf2f7; color: #4a5568;">ยกเลิก</button>
+            <button onclick="confirmLogout()" style="background: #e53e3e;">ออกจากระบบ</button>
+        </div>
     </div>
 </div>
 
@@ -24,6 +53,8 @@
     <button class="nav-btn" id="btn-project" onclick="filterTools('project')">PROJECT</button>
     <button class="nav-btn" id="btn-marketing" onclick="filterTools('marketing')">MARKETING</button>
     <button class="nav-btn" id="btn-common" onclick="filterTools('common')">COMMON</button>
+    <div style="flex-grow: 1;"></div>
+    <button class="nav-btn logout" onclick="logout()">LOGOUT</button>
 </nav>
 
 <div class="container">

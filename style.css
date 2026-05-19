@@ -24,9 +24,10 @@ body {
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
     z-index: 1000;
-    padding: 15px 0;
+    padding: 15px 30px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
     gap: 12px;
     flex-wrap: wrap;
     border-bottom: 1px solid #e2e8f0;
@@ -52,6 +53,17 @@ body {
 .nav-btn.active {
     background-color: var(--secondary-color);
     color: white;
+}
+
+.nav-btn.logout {
+    border-color: #e53e3e;
+    color: #e53e3e;
+}
+
+.nav-btn.logout:hover {
+    background-color: #fff5f5;
+    border-color: #c53030;
+    color: #c53030;
 }
 
 .container {
