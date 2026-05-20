@@ -51,8 +51,46 @@ function confirmLogout() {
     location.reload();
 }
 
+// จัดการ Theme (Light / Dark / Auto)
+function setTheme(theme) {
+    const html = document.documentElement;
+    const buttons = document.querySelectorAll('.theme-btn');
+    
+    // ลบ class active ออกจากทุกปุ่ม
+    buttons.forEach(btn => btn.classList.remove('active'));
+    
+    if (theme === 'auto') {
+        localStorage.removeItem('gw_hub_theme');
+        document.getElementById('theme-auto').classList.add('active');
+        applyAutoTheme();
+    } else {
+        localStorage.setItem('gw_hub_theme', theme);
+        html.setAttribute('data-theme', theme);
+        document.getElementById('theme-' + theme).classList.add('active');
+    }
+}
+
+function applyAutoTheme() {
+    const savedTheme = localStorage.getItem('gw_hub_theme');
+    if (!savedTheme) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    } else {
+        setTheme(savedTheme);
+    }
+}
+
+// ตรวจสอบการเปลี่ยนของระบบ (System Theme Change)
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('gw_hub_theme')) {
+        applyAutoTheme();
+    }
+});
+
 // ตรวจสอบ Memory เมื่อโหลดหน้าเว็บ
 window.onload = function() {
+    applyAutoTheme();
+    
     const isAuth = localStorage.getItem('gw_hub_auth');
     if (isAuth === 'true') {
         showMainContent();
