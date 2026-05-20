@@ -26,23 +26,23 @@
 
 <!-- Custom Alert Modal (Error) -->
 <div id="custom-alert" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
-    <div class="login-box" style="padding: 30px; border-top: 5px solid #e53e3e;">
+    <div class="login-box">
         <div style="font-size: 3rem; margin-bottom: 10px;">❌</div>
-        <h3 style="margin-bottom: 15px; color: #2d3748;">รหัสผ่านไม่ถูกต้อง!</h3>
-        <p style="color: #718096; margin-bottom: 25px;">กรุณาตรวจสอบและลองใหม่อีกครั้ง</p>
-        <button onclick="closeAlert()" style="background: #e53e3e;">ตกลง</button>
+        <h3>รหัสผ่านไม่ถูกต้อง!</h3>
+        <p>กรุณาตรวจสอบและลองใหม่อีกครั้ง</p>
+        <button onclick="closeAlert()" style="background: #e53e3e; margin-top: 20px;">ตกลง</button>
     </div>
 </div>
 
 <!-- Logout Confirmation Modal -->
 <div id="logout-confirm" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
-    <div class="login-box" style="padding: 30px; border-top: 5px solid var(--secondary-color);">
+    <div class="login-box">
         <div style="font-size: 3rem; margin-bottom: 10px;">👋</div>
-        <h3 style="margin-bottom: 15px; color: #2d3748;">ต้องการออกจากระบบ?</h3>
-        <p style="color: #718096; margin-bottom: 25px;">คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบในตอนนี้?</p>
-        <div style="display: flex; gap: 10px;">
-            <button onclick="closeLogoutConfirm()" style="background: #edf2f7; color: #4a5568;">ยกเลิก</button>
-            <button onclick="confirmLogout()" style="background: #e53e3e;">ออกจากระบบ</button>
+        <h3>ต้องการออกจากระบบ?</h3>
+        <p>คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบในตอนนี้?</p>
+        <div style="display: flex; gap: 10px; margin-top: 25px;">
+            <button onclick="closeLogoutConfirm()" style="background: rgba(255,255,255,0.1); color: white;">ยกเลิก</button>
+            <button onclick="confirmLogout()" style="background: #ef4444;">ออกจากระบบ</button>
         </div>
     </div>
 </div>
@@ -95,7 +95,6 @@
                     <div class="btn-access">เปิด Google Drive</div>
                 </div>
             </a>
-            
         </div>
     </div>
 
