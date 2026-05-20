@@ -12,7 +12,7 @@
 <div id="login-overlay">
     <div class="login-box">
         <h2>GW Tools Hub</h2>
-        <input type="password" id="password-input" placeholder="Enter Password" autofocus>
+        <input type="password" id="password-input" placeholder="Password" autofocus>
         
         <div style="margin-bottom: 20px; text-align: left; display: flex; align-items: center; gap: 8px; cursor: pointer;">
             <input type="checkbox" id="remember-me" style="width: auto; margin: 0; cursor: pointer;">
@@ -48,16 +48,41 @@
 
 <div id="main-content" class="hidden">
     <nav class="nav-bar">
-    <button class="nav-btn active" id="btn-all" onclick="filterTools('all')">ALL</button>
+    <button class="nav-btn active" id="btn-common" onclick="filterTools('common')">COMMON</button>
     <button class="nav-btn" id="btn-bd" onclick="filterTools('bd')">BD & SALES</button>
     <button class="nav-btn" id="btn-project" onclick="filterTools('project')">PROJECT</button>
     <button class="nav-btn" id="btn-marketing" onclick="filterTools('marketing')">MARKETING</button>
-    <button class="nav-btn" id="btn-common" onclick="filterTools('common')">COMMON</button>
     <div style="flex-grow: 1;"></div>
     <button class="nav-btn logout" onclick="logout()">LOGOUT</button>
 </nav>
 
 <div class="container">
+    <!-- Common Tools -->
+    <div class="category-section" id="section-common">
+        <div class="section-title">Common Tools</div>
+        <div class="tool-grid">
+            <a href="https://chatgpt.com/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="chatgpt.img.svg" alt="ChatGPT"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">Common (ทุกแผนก)</div>
+                    <div class="tool-title">Chat GPT</div>
+                    <div class="tool-description">ผู้ช่วยอัจฉริยะสำหรับหาข้อมูล เขียนบทความ และแก้ปัญหาด่วน</div>
+                    <div class="btn-access">คุยกับ ChatGPT</div>
+                </div>
+            </a>
+            <a href="https://drive.google.com/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="google-drive.png" alt="Google Drive"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">Common (ทุกแผนก)</div>
+                    <div class="tool-title">Google Drive</div>
+                    <div class="tool-description">คลังเก็บข้อมูลออนไลน์สำหรับจัดการไฟล์และแชร์ข้อมูล</div>
+                    <div class="btn-access">เปิด Google Drive</div>
+                </div>
+            </a>
+            
+        </div>
+    </div>
+
     <!-- Business Development & Sales -->
     <div class="category-section" id="section-bd">
         <div class="section-title">Business Development & Sales</div>
@@ -83,7 +108,7 @@
             <a href="https://salegoodwork-2026.atlassian.net/jira/for-you" target="_blank" class="tool-card">
                 <div class="tool-image"><img src="jira.img.png" alt="Jira"></div>
                 <div class="tool-content">
-                    <div class="tool-dept">แผนก BD, Marketing</div>
+                    <div class="tool-dept">แผนก BD</div>
                     <div class="tool-title">Jira Software</div>
                     <div class="tool-description">ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม</div>
                     <div class="btn-access">เปิดหน้างาน Jira</div>
@@ -92,7 +117,7 @@
             <a href="https://www.calloncloud.io/" target="_blank" class="tool-card">
                 <div class="tool-image"><img src="calloncloud.ico" alt="CallOnCloud"></div>
                 <div class="tool-content">
-                    <div class="tool-dept">Common (ทุกแผนก)</div>
+                    <div class="tool-dept">แผนก BD&Sale</div>
                     <div class="tool-title">Call On Cloud</div>
                     <div class="tool-description">ระบบ centralino VoIP และการสื่อสารในองค์กร</div>
                     <div class="btn-access">เข้าสู่ Call On Cloud</div>
@@ -139,32 +164,15 @@
                     <div class="btn-access">เปิด Kling</div>
                 </div>
             </a>
-        </div>
-    </div>
-
-    <!-- Common Tools -->
-    <div class="category-section" id="section-common">
-        <div class="section-title">Common Tools</div>
-        <div class="tool-grid">
-            <a href="https://chatgpt.com/" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="chatgpt.img.svg" alt="ChatGPT"></div>
+            <a href="https://salegoodwork-2026.atlassian.net/jira/for-you" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="jira.img.png" alt="Jira"></div>
                 <div class="tool-content">
-                    <div class="tool-dept">Common (ทุกแผนก)</div>
-                    <div class="tool-title">Chat GPT</div>
-                    <div class="tool-description">ผู้ช่วยอัจฉริยะสำหรับหาข้อมูล เขียนบทความ และแก้ปัญหาด่วน</div>
-                    <div class="btn-access">คุยกับ ChatGPT</div>
+                    <div class="tool-dept">แผนก Marketing</div>
+                    <div class="tool-title">Jira Software</div>
+                    <div class="tool-description">ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม</div>
+                    <div class="btn-access">เปิดหน้างาน Jira</div>
                 </div>
             </a>
-            <a href="https://drive.google.com/" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="google-drive.png" alt="Google Drive"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">Common (ทุกแผนก)</div>
-                    <div class="tool-title">Google Drive</div>
-                    <div class="tool-description">คลังเก็บข้อมูลออนไลน์สำหรับจัดการไฟล์และแชร์ข้อมูล</div>
-                    <div class="btn-access">เปิด Google Drive</div>
-                </div>
-            </a>
-            
         </div>
     </div>
 </div> <!-- End of container -->

@@ -1,10 +1,11 @@
+// กำหนดรหัสผ่านหลัก
+const CORRECT_PASSWORD = 'goodwork';
+
 function checkPassword() {
     const password = document.getElementById('password-input').value;
     const rememberMe = document.getElementById('remember-me').checked;
-    const correctPassword = 'goodwork';
 
-    if (password === correctPassword) {
-        // ถ้าติ๊ก Remember Me ถึงจะบันทึกลง localStorage
+    if (password === CORRECT_PASSWORD) {
         if (rememberMe) {
             localStorage.setItem('gw_hub_auth', 'true');
         }
@@ -27,6 +28,14 @@ function closeAlert() {
 function showMainContent() {
     document.getElementById('login-overlay').classList.add('hidden');
     document.getElementById('main-content').classList.remove('hidden');
+    
+    // ตั้งค่าเริ่มต้นให้แสดงหมวด Common
+    filterTools('common');
+    
+    const allButtons = document.querySelectorAll('.nav-btn:not(.logout)');
+    allButtons.forEach(btn => {
+        btn.classList.remove('hidden');
+    });
 }
 
 function logout() {
@@ -49,8 +58,8 @@ window.onload = function() {
         showMainContent();
     }
 };
-
-// ให้กด Enter ได้
+                                       
+// ให้กด Enter ได้ที่ช่อง Password
 document.getElementById('password-input').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         checkPassword();
@@ -67,21 +76,15 @@ function filterTools(category) {
         activeBtn.classList.add('active');
     }
 
-    // 2. Filter sections with logic that works better inside an iframe
+    // 2. Filter sections
     const sections = document.querySelectorAll('.category-section');
-    if (category === 'all') {
-        sections.forEach(s => {
+    sections.forEach(s => {
+        if (s.id === 'section-' + category) {
             s.style.display = 'block';
-        });
-    } else {
-        sections.forEach(s => {
-            if (s.id === 'section-' + category) {
-                s.style.display = 'block';
-            } else {
-                s.style.display = 'none';
-            }
-        });
-    }
+        } else {
+            s.style.display = 'none';
+        }
+    });
     
     // 3. Scroll to top of the content area
     window.scrollTo({ top: 0, behavior: 'smooth' });
