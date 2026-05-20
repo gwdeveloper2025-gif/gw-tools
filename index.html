@@ -9,18 +9,22 @@
 </head>
 <body>
 
+<!-- Login Overlay -->
 <div id="login-overlay">
     <div class="login-box">
         <h2>GW Tools Hub</h2>
         <input type="password" id="password-input" placeholder="Password" autofocus>
+        
         <div style="margin-bottom: 20px; text-align: left; display: flex; align-items: center; gap: 8px; cursor: pointer;">
             <input type="checkbox" id="remember-me" style="width: auto; margin: 0; cursor: pointer;">
             <label for="remember-me" style="font-size: 0.9rem; color: #4a5568; cursor: pointer;">Remember Me</label>
         </div>
+
         <button onclick="checkPassword()">Login</button>
     </div>
 </div>
 
+<!-- Custom Alert Modal (Error) -->
 <div id="custom-alert" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
     <div class="login-box">
         <div style="font-size: 3rem; margin-bottom: 10px;">❌</div>
@@ -30,6 +34,7 @@
     </div>
 </div>
 
+<!-- Logout Confirmation Modal -->
 <div id="logout-confirm" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
     <div class="login-box">
         <div style="font-size: 3rem; margin-bottom: 10px;">👋</div>
@@ -50,6 +55,7 @@
             <button class="nav-btn" id="btn-project" onclick="filterTools('project')">PROJECT</button>
             <button class="nav-btn" id="btn-marketing" onclick="filterTools('marketing')">MARKETING</button>
         </div>
+        
         <div class="nav-controls">
             <div class="theme-dropdown" id="theme-dropdown">
                 <button class="theme-dropbtn" onclick="toggleThemeDropdown()">
@@ -65,128 +71,136 @@
             <button class="nav-btn logout" onclick="logout()">LOGOUT</button>
         </div>
     </nav>
-    <div class="container">
-        <div class="category-section" id="section-common">
-            <div class="section-title">Common Tools</div>
-            <div class="tool-grid">
-                <a href="https://chatgpt.com/" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="chatgpt.img.svg" alt="ChatGPT"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">Common (ทุกแผนก)</div>
-                        <div class="tool-title">Chat GPT</div>
-                        <div class="tool-description">ผู้ช่วยอัจฉริยะสำหรับหาข้อมูล เขียนบทความ และแก้ปัญหาด่วน</div>
-                        <div class="btn-access">คุยกับ ChatGPT</div>
-                    </div>
-                </a>
-                <a href="https://drive.google.com/" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="google-drive.png" alt="Google Drive"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">Common (ทุกแผนก)</div>
-                        <div class="tool-title">Google Drive</div>
-                        <div class="tool-description">คลังเก็บข้อมูลออนไลน์สำหรับจัดการไฟล์และแชร์ข้อมูล</div>
-                        <div class="btn-access">เปิด Google Drive</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="category-section" id="section-bd">
-            <div class="section-title">Business Development & Sales</div>
-            <div class="tool-grid">
-                <a href="https://dabby.io/" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="dabby.img.png" alt="Dabby"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">แผนก BD</div>
-                        <div class="tool-title">Dabby.io</div>
-                        <div class="tool-description">ระบบ AI Engine สำหรับจัดการ Chatbot และ Prompts</div>
-                        <div class="btn-access">เข้าสู่ระบบ Dabby</div>
-                    </div>
-                </a>
-                <a href="https://manager.line.biz/" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="line.img.svg" alt="Line"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">แผนก BD, Sales</div>
-                        <div class="tool-title">Line OA</div>
-                        <div class="tool-description">ระบบจัดการบัญชี Line Official สำหรับสื่อสารกับลูกค้า</div>
-                        <div class="btn-access">เปิด Line Manager</div>
-                    </div>
-                </a>
-                <a href="https://salegoodwork-2026.atlassian.net/jira/for-you" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="jira.img.png" alt="Jira"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">แผนก BD</div>
-                        <div class="tool-title">Jira Software</div>
-                        <div class="tool-description">ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม</div>
-                        <div class="btn-access">เปิดหน้างาน Jira</div>
-                    </div>
-                </a>
-                <a href="https://www.calloncloud.io/" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="calloncloud.ico" alt="CallOnCloud"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">แผนก BD&Sale</div>
-                        <div class="tool-title">Call On Cloud</div>
-                        <div class="tool-description">ระบบ centralino VoIP และการสื่อสารในองค์กร</div>
-                        <div class="btn-access">เข้าสู่ Call On Cloud</div>
-                    </div>
-                </a>
-                <a href="https://github.com/" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" style="filter: invert(1);" alt="GitHub"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">แผนก BD</div>
-                        <div class="tool-title">GitHub</div>
-                        <div class="tool-description">ระบบจัดการซอร์สโค้ดและติดตามการแก้ไขของโปรเจกต์</div>
-                        <div class="btn-access">เข้าสู่ GitHub</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="category-section" id="section-project">
-            <div class="section-title">Project Management</div>
-            <div class="tool-grid">
-                <a href="https://trello.com/" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="trello.img.png" alt="Trello"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">แผนก Project</div>
-                        <div class="tool-title">Trello</div>
-                        <div class="tool-description">บอร์ดจัดการงานภาพรวมและติดตามสถานะโครงการ</div>
-                        <div class="btn-access">เปิดบอร์ด Trello</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="category-section" id="section-marketing">
-            <div class="section-title">Marketing</div>
-            <div class="tool-grid">
-                <a href="https://miro.com/th/" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="miro.jpg" alt="Miro"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">แผนก Marketing</div>
-                        <div class="tool-title">Miro</div>
-                        <div class="tool-description">ไวท์บอร์ดออนไลน์สำหรับระดมสมองและวางแผน</div>
-                        <div class="btn-access">เปิด Miro</div>
-                    </div>
-                </a>
-                <a href="https://kling.ai/app/video/new" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="kling.png" alt="Kling"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">แผนก Marketing</div>
-                        <div class="tool-title">Kling</div>
-                        <div class="tool-description">แพลตฟอร์มสร้างวิดีโออัตโนมัติด้วย AI</div>
-                        <div class="btn-access">เปิด Kling</div>
-                    </div>
-                </a>
-                <a href="https://salegoodwork-2026.atlassian.net/jira/for-you" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="jira.img.png" alt="Jira"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">แผนก Marketing</div>
-                        <div class="tool-title">Jira Software</div>
-                        <div class="tool-description">ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม</div>
-                        <div class="btn-access">เปิดหน้างาน Jira</div>
-                    </div>
-                </a>
-            </div>
+
+<div class="container">
+    <!-- Common Tools -->
+    <div class="category-section" id="section-common">
+        <div class="section-title">Common Tools</div>
+        <div class="tool-grid">
+            <a href="https://chatgpt.com/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="chatgpt.img.svg" alt="ChatGPT"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">Common (ทุกแผนก)</div>
+                    <div class="tool-title">Chat GPT</div>
+                    <div class="tool-description">ผู้ช่วยอัจฉริยะสำหรับหาข้อมูล เขียนบทความ และแก้ปัญหาด่วน</div>
+                    <div class="btn-access">คุยกับ ChatGPT</div>
+                </div>
+            </a>
+            <a href="https://drive.google.com/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="google-drive.png" alt="Google Drive"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">Common (ทุกแผนก)</div>
+                    <div class="tool-title">Google Drive</div>
+                    <div class="tool-description">คลังเก็บข้อมูลออนไลน์สำหรับจัดการไฟล์และแชร์ข้อมูล</div>
+                    <div class="btn-access">เปิด Google Drive</div>
+                </div>
+            </a>
         </div>
     </div>
-</div>
+
+    <!-- Business Development & Sales -->
+    <div class="category-section" id="section-bd">
+        <div class="section-title">Business Development & Sales</div>
+        <div class="tool-grid">
+            <a href="https://dabby.io/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="dabby.img.png" alt="Dabby"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก BD</div>
+                    <div class="tool-title">Dabby.io</div>
+                    <div class="tool-description">ระบบ AI Engine สำหรับจัดการ Chatbot และ Prompts</div>
+                    <div class="btn-access">เข้าสู่ระบบ Dabby</div>
+                </div>
+            </a>
+            <a href="https://manager.line.biz/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="line.img.svg" alt="Line"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก BD, Sales</div>
+                    <div class="tool-title">Line OA</div>
+                    <div class="tool-description">ระบบจัดการบัญชี Line Official สำหรับสื่อสารกับลูกค้า</div>
+                    <div class="btn-access">เปิด Line Manager</div>
+                </div>
+            </a>
+            <a href="https://salegoodwork-2026.atlassian.net/jira/for-you" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="jira.img.png" alt="Jira"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก BD</div>
+                    <div class="tool-title">Jira Software</div>
+                    <div class="tool-description">ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม</div>
+                    <div class="btn-access">เปิดหน้างาน Jira</div>
+                </div>
+            </a>
+            <a href="https://www.calloncloud.io/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="calloncloud.ico" alt="CallOnCloud"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก BD&Sale</div>
+                    <div class="tool-title">Call On Cloud</div>
+                    <div class="tool-description">ระบบ centralino VoIP และการสื่อสารในองค์กร</div>
+                    <div class="btn-access">เข้าสู่ Call On Cloud</div>
+                </div>
+            </a>
+            <a href="https://github.com/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" style="filter: invert(1);" alt="GitHub"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก BD</div>
+                    <div class="tool-title">GitHub</div>
+                    <div class="tool-description">ระบบจัดการซอร์สโค้ดและติดตามการแก้ไขของโปรเจกต์</div>
+                    <div class="btn-access">เข้าสู่ GitHub</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Project Management -->
+    <div class="category-section" id="section-project">
+        <div class="section-title">Project Management</div>
+        <div class="tool-grid">
+            <a href="https://trello.com/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="trello.img.png" alt="Trello"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก Project</div>
+                    <div class="tool-title">Trello</div>
+                    <div class="tool-description">บอร์ดจัดการงานภาพรวมและติดตามสถานะโครงการ</div>
+                    <div class="btn-access">เปิดบอร์ด Trello</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Marketing -->
+    <div class="category-section" id="section-marketing">
+        <div class="section-title">Marketing</div>
+        <div class="tool-grid">
+            <a href="https://miro.com/th/" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="miro.jpg" alt="Miro"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก Marketing</div>
+                    <div class="tool-title">Miro</div>
+                    <div class="tool-description">ไวท์บอร์ดออนไลน์สำหรับระดมสมองและวางแผน</div>
+                    <div class="btn-access">เปิด Miro</div>
+                </div>
+            </a>
+            <a href="https://kling.ai/app/video/new" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="kling.png" alt="Kling"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก Marketing</div>
+                    <div class="tool-title">Kling</div>
+                    <div class="tool-description">แพลตฟอร์มสร้างวิดีโออัตโนมัติด้วย AI</div>
+                    <div class="btn-access">เปิด Kling</div>
+                </div>
+            </a>
+            <a href="https://salegoodwork-2026.atlassian.net/jira/for-you" target="_blank" class="tool-card">
+                <div class="tool-image"><img src="jira.img.png" alt="Jira"></div>
+                <div class="tool-content">
+                    <div class="tool-dept">แผนก Marketing</div>
+                    <div class="tool-title">Jira Software</div>
+                    <div class="tool-description">ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม</div>
+                    <div class="btn-access">เปิดหน้างาน Jira</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div> <!-- End of container -->
+</div> <!-- End of main-content -->
 
 <script src="script.js"></script>
 </body>
