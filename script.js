@@ -1,3 +1,4 @@
+// GW Tools Hub - Core Logic v1.1.0
 const CORRECT_PASSWORD = 'goodwork';
 
 function checkPassword() {
