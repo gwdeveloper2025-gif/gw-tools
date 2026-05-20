@@ -52,21 +52,51 @@ function confirmLogout() {
 }
 
 // จัดการ Theme (Light / Dark / Auto)
+function toggleThemeDropdown() {
+    document.getElementById('theme-dropdown').classList.toggle('show');
+}
+
 function setTheme(theme) {
     const html = document.documentElement;
-    const buttons = document.querySelectorAll('.theme-btn');
+    const buttons = document.querySelectorAll('.theme-dropdown-content button');
+    const themeIcon = document.getElementById('current-theme-icon');
+    const themeText = document.getElementById('current-theme-text');
     
     // ลบ class active ออกจากทุกปุ่ม
     buttons.forEach(btn => btn.classList.remove('active'));
     
+    const themeData = {
+        'light': { icon: '☀️', text: 'Light' },
+        'dark': { icon: '🌙', text: 'Dark' },
+        'auto': { icon: '💻', text: 'Auto' }
+    };
+
+    themeIcon.innerText = themeData[theme].icon;
+    themeText.innerText = themeData[theme].text;
+    document.getElementById('theme-' + theme).classList.add('active');
+
     if (theme === 'auto') {
         localStorage.removeItem('gw_hub_theme');
-        document.getElementById('theme-auto').classList.add('active');
         applyAutoTheme();
     } else {
         localStorage.setItem('gw_hub_theme', theme);
         html.setAttribute('data-theme', theme);
-        document.getElementById('theme-' + theme).classList.add('active');
+    }
+    
+    // ปิด dropdown
+    document.getElementById('theme-dropdown').classList.remove('show');
+}
+
+// ปิด Dropdown เมื่อคลิกข้างนอก
+window.onclick = function(event) {
+    if (!event.target.closest('.theme-dropdown')) {
+        const dropdowns = document.getElementsByClassName("theme-dropdown");
+        for (let i = 0; i < dropdowns.length; i++) {
+            const openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
     }
 }
 
@@ -75,6 +105,12 @@ function applyAutoTheme() {
     if (!savedTheme) {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+        
+        // Update Dropdown UI for Auto
+        document.getElementById('current-theme-icon').innerText = '💻';
+        document.getElementById('current-theme-text').innerText = 'Auto';
+        document.querySelectorAll('.theme-dropdown-content button').forEach(b => b.classList.remove('active'));
+        document.getElementById('theme-auto').classList.add('active');
     } else {
         setTheme(savedTheme);
     }
