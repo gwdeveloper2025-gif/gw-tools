@@ -107,10 +107,14 @@ function applyAutoTheme() {
         document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
         
         // Update Dropdown UI for Auto
-        document.getElementById('current-theme-icon').innerText = '💻';
-        document.getElementById('current-theme-text').innerText = 'Auto';
+        const iconEl = document.getElementById('current-theme-icon');
+        const textEl = document.getElementById('current-theme-text');
+        if (iconEl) iconEl.innerText = '💻';
+        if (textEl) textEl.innerText = 'Auto';
+        
         document.querySelectorAll('.theme-dropdown-content button').forEach(b => b.classList.remove('active'));
-        document.getElementById('theme-auto').classList.add('active');
+        const autoBtn = document.getElementById('theme-auto');
+        if (autoBtn) autoBtn.classList.add('active');
     } else {
         setTheme(savedTheme);
     }
