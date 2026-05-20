@@ -71,9 +71,10 @@ function setTheme(theme) {
         'auto': { icon: '💻', text: 'Auto' }
     };
 
-    themeIcon.innerText = themeData[theme].icon;
-    themeText.innerText = themeData[theme].text;
-    document.getElementById('theme-' + theme).classList.add('active');
+    if (themeIcon) themeIcon.innerText = themeData[theme].icon;
+    if (themeText) themeText.innerText = themeData[theme].text;
+    const activeBtn = document.getElementById('theme-' + theme);
+    if (activeBtn) activeBtn.classList.add('active');
 
     if (theme === 'auto') {
         localStorage.removeItem('gw_hub_theme');
