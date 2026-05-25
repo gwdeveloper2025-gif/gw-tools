@@ -13,11 +13,12 @@
 <div id="login-overlay">
     <div class="login-box">
         <h2>GW Tools Hub</h2>
-        <input type="password" id="password-input" placeholder="Password" autofocus>
+        <input type="text" id="username-input" placeholder="Username" autofocus>
+        <input type="password" id="password-input" placeholder="Password">
         
         <div style="margin-bottom: 20px; text-align: left; display: flex; align-items: center; gap: 8px; cursor: pointer;">
             <input type="checkbox" id="remember-me" style="width: auto; margin: 0; cursor: pointer;">
-            <label for="remember-me" style="font-size: 0.9rem; color: #4a5568; cursor: pointer;">Remember Me</label>
+            <label for="remember-me" style="font-size: 0.9rem; color: #94a3b8; cursor: pointer;">Remember Me</label>
         </div>
 
         <button onclick="checkPassword()">Login</button>
@@ -47,6 +48,68 @@
     </div>
 </div>
 
+<!-- Change Password Modal -->
+<div id="password-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
+    <div class="login-box">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">🔑</div>
+        <h3>เปลี่ยนรหัสผ่าน</h3>
+        <p id="pw-user-display" style="margin-bottom: 20px; color: var(--primary-color); font-weight: bold;"></p>
+        
+        <input type="password" id="current-pw" placeholder="รหัสผ่านปัจจุบัน" style="margin-bottom: 10px;">
+        <input type="password" id="new-pw" placeholder="รหัสผ่านใหม่" style="margin-bottom: 10px;">
+        <input type="password" id="confirm-pw" placeholder="ยืนยันรหัสผ่านใหม่" style="margin-bottom: 20px;">
+        
+        <div style="display: flex; gap: 10px;">
+            <button onclick="closeChangePasswordModal()" style="background: rgba(255,255,255,0.1); color: white;">ยกเลิก</button>
+            <button onclick="submitChangePassword()" style="background: var(--primary-color);">บันทึก</button>
+        </div>
+    </div>
+</div>
+
+<!-- User Management Modal -->
+<div id="user-mgmt-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
+    <div class="login-box" style="max-width: 600px; width: 95%; max-height: 90vh; overflow-y: auto;">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">👥</div>
+        <h3>จัดการพนักงาน</h3>
+        
+        <div id="user-list" style="text-align: left; margin: 20px 0; max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 10px;">
+            <!-- Users will be listed here -->
+        </div>
+
+        <div style="border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: left;">
+            <h4 style="margin-bottom: 15px;">เพิ่มพนักงานใหม่</h4>
+            <input type="text" id="new-username" placeholder="ชื่อพนักงาน (Username)" style="margin-bottom: 10px;">
+            <input type="text" id="new-role" placeholder="ตำแหน่ง (Role)" style="margin-bottom: 10px;">
+            
+            <div style="margin-bottom: 20px;">
+                <p style="font-size: 0.9rem; margin-bottom: 12px; color: var(--text-muted); font-weight: 600;">การเข้าถึงหมวดหมู่:</p>
+                <div class="cat-access-grid">
+                    <label class="cat-label">
+                        <input type="checkbox" class="cat-access" value="common" checked disabled>
+                        <span>Common</span>
+                    </label>
+                    <label class="cat-label">
+                        <input type="checkbox" class="cat-access" value="bd">
+                        <span>BD & Sales</span>
+                    </label>
+                    <label class="cat-label">
+                        <input type="checkbox" class="cat-access" value="project">
+                        <span>Project</span>
+                    </label>
+                    <label class="cat-label">
+                        <input type="checkbox" class="cat-access" value="marketing">
+                        <span>Marketing</span>
+                    </label>
+                </div>
+            </div>
+            
+            <button onclick="addNewUser()" style="background: var(--accent-color); margin-bottom: 10px;">เพิ่มพนักงาน</button>
+        </div>
+        
+        <button onclick="closeUserMgmtModal()" style="background: rgba(255,255,255,0.1); color: white; margin-top: 10px;">ปิด</button>
+    </div>
+</div>
+
 <div id="main-content" class="hidden">
     <nav class="nav-bar">
         <div class="nav-links">
@@ -57,6 +120,8 @@
         </div>
         
         <div class="nav-controls">
+            <button class="nav-btn hidden" id="admin-mgmt-btn" onclick="openUserMgmtModal()" style="border-color: var(--accent-color);">👥 MANAGE USERS</button>
+            <button class="nav-btn" onclick="openChangePasswordModal()" style="border-color: rgba(99, 102, 241, 0.3);">🔑 PASSWORD</button>
             <div class="theme-dropdown" id="theme-dropdown">
                 <button class="theme-dropbtn" onclick="toggleThemeDropdown()">
                     <span id="current-theme-icon">💻</span>
