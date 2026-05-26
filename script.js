@@ -1,5 +1,16 @@
 // GW Tools Hub - Core Logic v1.6.0
+const VERSION = '1.6.0';
 const DEFAULT_PASSWORD = 'goodwork';
+
+// Check for version update and clear cache if needed
+const savedVersion = localStorage.getItem('gw_hub_version');
+if (savedVersion !== VERSION) {
+    localStorage.removeItem('gw_hub_users');
+    localStorage.removeItem('gw_hub_tools');
+    localStorage.removeItem('gw_hub_passwords');
+    localStorage.setItem('gw_hub_version', VERSION);
+    console.log('System updated to v' + VERSION + '. Local data reset.');
+}
 
 const INITIAL_USERS = {
     'great': { role: 'CEO', allowed: ['common', 'bd', 'project', 'marketing'] },
