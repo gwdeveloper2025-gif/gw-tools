@@ -150,34 +150,40 @@ function showMainContent(username) {
 }
 
 function renderTools(username) {
-    const tools = getTools();
-    const users = getUsers();
-    const user = users[username];
-    
-    const categories = ['common', 'bd', 'project', 'marketing'];
-    categories.forEach(cat => {
-        const grid = document.getElementById('grid-' + cat);
-        if (!grid) return;
-        grid.innerHTML = '';
+    try {
+        const tools = getTools();
+        const users = getUsers();
+        const user = users[username];
         
-        const catTools = tools.filter(t => t.category === cat);
-        catTools.forEach(t => {
-            const card = document.createElement('div');
-            card.className = 'tool-card-wrapper'; // New wrapper to handle potential edit overlay
-            card.innerHTML = `
-                <a href="${t.url}" target="_blank" class="tool-card">
-                    <div class="tool-image"><img src="${t.img}" alt="${t.title}"></div>
-                    <div class="tool-content">
-                        <div class="tool-dept">${t.dept}</div>
-                        <div class="tool-title">${t.title}</div>
-                        <div class="tool-description">${t.desc}</div>
-                        <div class="btn-access">${t.btn}</div>
-                    </div>
-                </a>
-            `;
-            grid.appendChild(card);
+        if (!user) return;
+
+        const categories = ['common', 'bd', 'project', 'marketing'];
+        categories.forEach(cat => {
+            const grid = document.getElementById('grid-' + cat);
+            if (!grid) return;
+            grid.innerHTML = '';
+            
+            const catTools = tools.filter(t => t.category === cat);
+            catTools.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'tool-card-wrapper';
+                card.innerHTML = `
+                    <a href="${t.url}" target="_blank" class="tool-card">
+                        <div class="tool-image"><img src="${t.img}" alt="${t.title}" onerror="this.src='https://via.placeholder.com/64?text=Tool'"></div>
+                        <div class="tool-content">
+                            <div class="tool-dept">${t.dept}</div>
+                            <div class="tool-title">${t.title}</div>
+                            <div class="tool-description">${t.desc}</div>
+                            <div class="btn-access">${t.btn}</div>
+                        </div>
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
         });
-    });
+    } catch (err) {
+        console.error('Error rendering tools:', err);
+    }
 }
 
 function logout() {
