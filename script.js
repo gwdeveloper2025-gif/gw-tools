@@ -1,4 +1,4 @@
-// GW Tools Hub - Core Logic v1.5.0
+// GW Tools Hub - Core Logic v1.6.0
 const DEFAULT_PASSWORD = 'goodwork';
 
 const INITIAL_USERS = {
@@ -10,6 +10,20 @@ const INITIAL_USERS = {
     'Bill': { role: 'BD&marketing', allowed: ['common', 'bd', 'marketing'] }
 };
 
+const INITIAL_TOOLS = [
+    { id: 1, category: 'common', title: 'Chat GPT', url: 'https://chatgpt.com/', desc: 'ผู้ช่วยอัจฉริยะสำหรับหาข้อมูล เขียนบทความ และแก้ปัญหาด่วน', img: 'chatgpt.img.svg', dept: 'Common (ทุกแผนก)', btn: 'คุยกับ ChatGPT' },
+    { id: 2, category: 'common', title: 'Google Drive', url: 'https://drive.google.com/', desc: 'คลังเก็บข้อมูลออนไลน์สำหรับจัดการไฟล์และแชร์ข้อมูล', img: 'google-drive.png', dept: 'Common (ทุกแผนก)', btn: 'เปิด Google Drive' },
+    { id: 3, category: 'bd', title: 'Dabby.io', url: 'https://dabby.io/', desc: 'ระบบ AI Engine สำหรับจัดการ Chatbot และ Prompts', img: 'dabby.img.png', dept: 'แผนก BD', btn: 'เข้าสู่ระบบ Dabby' },
+    { id: 4, category: 'bd', title: 'Line OA', url: 'https://manager.line.biz/', desc: 'ระบบจัดการบัญชี Line Official สำหรับสื่อสารกับลูกค้า', img: 'line.img.svg', dept: 'แผนก BD, Sales', btn: 'เปิด Line Manager' },
+    { id: 5, category: 'bd', title: 'Jira Software', url: 'https://salegoodwork-2026.atlassian.net/jira/for-you', desc: 'ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม', img: 'jira.img.png', dept: 'แผนก BD', btn: 'เปิดหน้างาน Jira' },
+    { id: 6, category: 'bd', title: 'Call On Cloud', url: 'https://www.calloncloud.io/', desc: 'ระบบ centralino VoIP และการสื่อสารในองค์กร', img: 'calloncloud.ico', dept: 'แผนก BD&Sale', btn: 'เข้าสู่ Call On Cloud' },
+    { id: 7, category: 'bd', title: 'GitHub', url: 'https://github.com/', desc: 'ระบบจัดการซอร์สโค้ดและติดตามการแก้ไขของโปรเจกต์', img: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png', dept: 'แผนก BD', btn: 'เข้าสู่ GitHub' },
+    { id: 8, category: 'project', title: 'Trello', url: 'https://trello.com/', desc: 'บอร์ดจัดการงานภาพรวมและติดตามสถานะโครงการ', img: 'trello.img.png', dept: 'แผนก Project', btn: 'เปิดบอร์ด Trello' },
+    { id: 9, category: 'marketing', title: 'Miro', url: 'https://miro.com/th/', desc: 'ไวท์บอร์ดออนไลน์สำหรับระดมสมองและวางแผน', img: 'miro.jpg', dept: 'แผนก Marketing', btn: 'เปิด Miro' },
+    { id: 10, category: 'marketing', title: 'Kling', url: 'https://kling.ai/app/video/new', desc: 'แพลตฟอร์มสร้างวิดีโออัตโนมัติด้วย AI', img: 'kling.png', dept: 'แผนก Marketing', btn: 'เปิด Kling' },
+    { id: 11, category: 'marketing', title: 'Jira Software', url: 'https://salegoodwork-2026.atlassian.net/jira/for-you', desc: 'ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม', img: 'jira.img.png', dept: 'แผนก Marketing', btn: 'เปิดหน้างาน Jira' }
+];
+
 const ADMINS = ['great', 'admin'];
 
 // Initialize or get users from localStorage
@@ -20,6 +34,16 @@ function getUsers() {
         return INITIAL_USERS;
     }
     return JSON.parse(users);
+}
+
+// Initialize or get tools from localStorage
+function getTools() {
+    let tools = localStorage.getItem('gw_hub_tools');
+    if (!tools) {
+        localStorage.setItem('gw_hub_tools', JSON.stringify(INITIAL_TOOLS));
+        return INITIAL_TOOLS;
+    }
+    return JSON.parse(tools);
 }
 
 // Initialize or get passwords from localStorage
@@ -86,8 +110,21 @@ function showMainContent(username) {
         document.getElementById('admin-mgmt-btn').classList.add('hidden');
     }
 
+    // Role-based Tool Management visibility (Managers, Heads, Leads, and CEO/Admins)
+    const mgmtRoles = ['manager', 'head', 'lead', 'ceo', 'administrator'];
+    const isMgmt = ADMINS.includes(username) || mgmtRoles.some(r => user.role.toLowerCase().includes(r));
+    
+    if (isMgmt) {
+        document.getElementById('tool-mgmt-btn').classList.remove('hidden');
+    } else {
+        document.getElementById('tool-mgmt-btn').classList.add('hidden');
+    }
+
+    // Render Tools
+    renderTools(username);
+
     // Filter Navigation Buttons
-    const navButtons = document.querySelectorAll('.nav-btn:not(.logout)');
+    const navButtons = document.querySelectorAll('.nav-btn:not(.logout):not(.theme-dropbtn)');
     navButtons.forEach(btn => {
         const category = btn.id.replace('btn-', '');
         if (category === 'common' || (user.allowed && user.allowed.includes(category))) {
@@ -99,6 +136,37 @@ function showMainContent(username) {
 
     // Default to first allowed category
     filterTools(user.allowed[0]);
+}
+
+function renderTools(username) {
+    const tools = getTools();
+    const users = getUsers();
+    const user = users[username];
+    
+    const categories = ['common', 'bd', 'project', 'marketing'];
+    categories.forEach(cat => {
+        const grid = document.getElementById('grid-' + cat);
+        if (!grid) return;
+        grid.innerHTML = '';
+        
+        const catTools = tools.filter(t => t.category === cat);
+        catTools.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'tool-card-wrapper'; // New wrapper to handle potential edit overlay
+            card.innerHTML = `
+                <a href="${t.url}" target="_blank" class="tool-card">
+                    <div class="tool-image"><img src="${t.img}" alt="${t.title}"></div>
+                    <div class="tool-content">
+                        <div class="tool-dept">${t.dept}</div>
+                        <div class="tool-title">${t.title}</div>
+                        <div class="tool-description">${t.desc}</div>
+                        <div class="btn-access">${t.btn}</div>
+                    </div>
+                </a>
+            `;
+            grid.appendChild(card);
+        });
+    });
 }
 
 function logout() {
@@ -163,7 +231,7 @@ function addNewUser() {
 
     const users = getUsers();
     if (users[username]) {
-        alert('มีชื่อผู้ใช้นี้อยู่ในระบบแล้ว');
+        alert('มีชื่อผู้ใช้งานนี้อยู่ในระบบแล้ว');
         return;
     }
 
@@ -180,12 +248,12 @@ function addNewUser() {
     document.getElementById('new-role').value = '';
     
     renderUserList();
-    alert(`เพิ่มพนักงาน ${username} เรียบร้อยแล้ว! (รหัสผ่านเริ่มต้น: ${DEFAULT_PASSWORD})`);
+    alert(`เพิ่มผู้ใช้งาน ${username} เรียบร้อยแล้ว! (รหัสผ่านเริ่มต้น: ${DEFAULT_PASSWORD})`);
 }
 
 function deleteUser(username) {
     if (ADMINS.includes(username)) return;
-    if (!confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบพนักงาน ${username}?`)) return;
+    if (!confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้งาน ${username}?`)) return;
 
     const users = getUsers();
     delete users[username];
@@ -196,6 +264,182 @@ function deleteUser(username) {
     localStorage.setItem('gw_hub_passwords', JSON.stringify(passwords));
 
     renderUserList();
+}
+
+// Tool Management Functions
+function openToolMgmtModal() {
+    renderToolListMgmt();
+    document.getElementById('tool-mgmt-modal').classList.remove('hidden');
+}
+
+function closeToolMgmtModal() {
+    document.getElementById('tool-mgmt-modal').classList.add('hidden');
+    resetToolForm();
+}
+
+function renderToolListMgmt() {
+    const tools = getTools();
+    const listContainer = document.getElementById('tool-list-mgmt');
+    listContainer.innerHTML = '';
+    
+    const currentUser = sessionStorage.getItem('gw_hub_current_user') || localStorage.getItem('gw_hub_user');
+    const users = getUsers();
+    const user = users[currentUser];
+    const isGlobalAdmin = ADMINS.includes(currentUser);
+
+    tools.forEach(t => {
+        // RBAC Check for Edit/Delete
+        // For simplicity, we assume department heads can edit tools in their "allowed" categories
+        const canManage = isGlobalAdmin || (user.allowed && user.allowed.includes(t.category));
+
+        if (!canManage) return;
+
+        const toolDiv = document.createElement('div');
+        toolDiv.style.display = 'flex';
+        toolDiv.style.justifyContent = 'space-between';
+        toolDiv.style.alignItems = 'center';
+        toolDiv.style.padding = '10px';
+        toolDiv.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+        
+        toolDiv.innerHTML = `
+            <div style="flex: 1;">
+                <div style="font-weight: 600; font-size: 0.9rem;">${t.title}</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">${t.category}</div>
+            </div>
+            <div style="display: flex; gap: 5px;">
+                <button onclick="editTool(${t.id})" style="background: #3b82f6; width: auto; padding: 4px 10px; font-size: 0.7rem; border-radius: 6px;">แก้ไข</button>
+                <button onclick="deleteTool(${t.id})" style="background: #ef4444; width: auto; padding: 4px 10px; font-size: 0.7rem; border-radius: 6px;">ลบ</button>
+            </div>
+        `;
+        listContainer.appendChild(toolDiv);
+    });
+}
+
+let currentBase64Image = '';
+
+function editTool(id) {
+    const tools = getTools();
+    const tool = tools.find(t => t.id === id);
+    if (!tool) return;
+
+    document.getElementById('edit-tool-id').value = tool.id;
+    document.getElementById('tool-name').value = tool.title;
+    document.getElementById('tool-url').value = tool.url;
+    document.getElementById('tool-desc').value = tool.desc;
+    
+    // Set preview
+    currentBase64Image = tool.img;
+    const preview = document.getElementById('image-preview');
+    const placeholder = document.getElementById('preview-placeholder');
+    if (tool.img) {
+        preview.src = tool.img;
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
+    } else {
+        preview.style.display = 'none';
+        placeholder.style.display = 'block';
+    }
+
+    document.getElementById('tool-dept-text').value = tool.dept;
+    document.getElementById('tool-btn-text').value = tool.btn;
+    document.getElementById('tool-category').value = tool.category;
+
+    document.getElementById('tool-form-title').innerText = 'แก้ไขเครื่องมือ';
+    document.getElementById('btn-save-tool').innerText = 'บันทึกการแก้ไข';
+    document.getElementById('btn-cancel-edit').classList.remove('hidden');
+}
+
+function resetToolForm() {
+    document.getElementById('edit-tool-id').value = '';
+    document.getElementById('tool-name').value = '';
+    document.getElementById('tool-url').value = '';
+    document.getElementById('tool-desc').value = '';
+    document.getElementById('tool-image-file').value = '';
+    
+    currentBase64Image = '';
+    document.getElementById('image-preview').src = '';
+    document.getElementById('image-preview').style.display = 'none';
+    document.getElementById('preview-placeholder').style.display = 'block';
+
+    document.getElementById('tool-dept-text').value = '';
+    document.getElementById('tool-btn-text').value = '';
+    document.getElementById('tool-category').value = 'common';
+
+    document.getElementById('tool-form-title').innerText = 'เพิ่มเครื่องมือใหม่';
+    document.getElementById('btn-save-tool').innerText = 'บันทึก';
+    document.getElementById('btn-cancel-edit').classList.add('hidden');
+}
+
+function saveTool() {
+    const id = document.getElementById('edit-tool-id').value;
+    const title = document.getElementById('tool-name').value.trim();
+    const url = document.getElementById('tool-url').value.trim();
+    const desc = document.getElementById('tool-desc').value.trim();
+    const img = currentBase64Image;
+    const dept = document.getElementById('tool-dept-text').value.trim();
+    const btnText = document.getElementById('tool-btn-text').value.trim();
+    const category = document.getElementById('tool-category').value;
+
+    if (!title || !url || !category) {
+        alert('กรุณากรอกข้อมูลที่จำเป็น (ชื่อ, ลิงก์, หมวดหมู่)');
+        return;
+    }
+
+    const tools = getTools();
+    
+    if (id) {
+        // Edit
+        const index = tools.findIndex(t => t.id == id);
+        if (index !== -1) {
+            tools[index] = { ...tools[index], title, url, desc, img, dept, btn: btnText, category };
+        }
+    } else {
+        // Add
+        const newId = tools.length > 0 ? Math.max(...tools.map(t => t.id)) + 1 : 1;
+        tools.push({ id: newId, title, url, desc, img, dept, btn: btnText, category });
+    }
+
+    localStorage.setItem('gw_hub_tools', JSON.stringify(tools));
+    resetToolForm();
+    renderToolListMgmt();
+    
+    const currentUser = sessionStorage.getItem('gw_hub_current_user') || localStorage.getItem('gw_hub_user');
+    renderTools(currentUser);
+    alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+}
+
+// File input listener for image conversion
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('tool-image-file');
+    if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                currentBase64Image = event.target.result;
+                const preview = document.getElementById('image-preview');
+                const placeholder = document.getElementById('preview-placeholder');
+                preview.src = currentBase64Image;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+});
+
+function deleteTool(id) {
+    if (!confirm('คุณแน่ใจหรือไม่ว่าต้องการลบเครื่องมือนี้?')) return;
+    
+    let tools = getTools();
+    tools = tools.filter(t => t.id != id);
+    localStorage.setItem('gw_hub_tools', JSON.stringify(tools));
+    
+    renderToolListMgmt();
+    const currentUser = sessionStorage.getItem('gw_hub_current_user') || localStorage.getItem('gw_hub_user');
+    renderTools(currentUser);
 }
 
 // Password Change Functions
@@ -246,61 +490,47 @@ function toggleThemeDropdown() {
 }
 
 function setTheme(theme) {
-    const html = document.documentElement;
-    const buttons = document.querySelectorAll('.theme-dropdown-content button');
-    const themeIcon = document.getElementById('current-theme-icon');
-    const themeText = document.getElementById('current-theme-text');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    const themeData = {
-        'light': { icon: '☀️', text: 'Light' },
-        'dark': { icon: '🌙', text: 'Dark' },
-        'auto': { icon: '💻', text: 'Auto' }
-    };
-    if (themeIcon) themeIcon.innerText = themeData[theme].icon;
-    if (themeText) themeText.innerText = themeData[theme].text;
-    const activeBtn = document.getElementById('theme-' + theme);
-    if (activeBtn) activeBtn.classList.add('active');
-    if (theme === 'auto') {
-        localStorage.removeItem('gw_hub_theme');
-        applyAutoTheme();
-    } else {
-        localStorage.setItem('gw_hub_theme', theme);
-        html.setAttribute('data-theme', theme);
-    }
+    localStorage.setItem('gw_hub_theme', theme);
+    applyTheme(theme);
     document.getElementById('theme-dropdown').classList.remove('show');
+    
+    const themeButtons = document.querySelectorAll('.theme-dropdown-content button');
+    themeButtons.forEach(btn => btn.classList.remove('active'));
+    document.getElementById('theme-' + theme).classList.add('active');
 }
 
-window.onclick = function(event) {
-    if (!event.target.closest('.theme-dropdown')) {
-        const dropdowns = document.getElementsByClassName("theme-dropdown");
-        for (let i = 0; i < dropdowns.length; i++) {
-            const openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
+function applyTheme(theme) {
+    const root = document.documentElement;
+    const icon = document.getElementById('current-theme-icon');
+    const text = document.getElementById('current-theme-text');
+
+    if (theme === 'auto') {
+        applyAutoTheme();
+        icon.innerText = '💻';
+        text.innerText = 'Auto';
+    } else if (theme === 'light') {
+        root.classList.remove('dark-theme');
+        icon.innerText = '☀️';
+        text.innerText = 'Light';
+    } else {
+        root.classList.add('dark-theme');
+        icon.innerText = '🌙';
+        text.innerText = 'Dark';
     }
 }
 
 function applyAutoTheme() {
-    const savedTheme = localStorage.getItem('gw_hub_theme');
-    if (!savedTheme) {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-        const iconEl = document.getElementById('current-theme-icon');
-        const textEl = document.getElementById('current-theme-text');
-        if (iconEl) iconEl.innerText = '💻';
-        if (textEl) textEl.innerText = 'Auto';
-        document.querySelectorAll('.theme-dropdown-content button').forEach(b => b.classList.remove('active'));
-        const autoBtn = document.getElementById('theme-auto');
-        if (autoBtn) autoBtn.classList.add('active');
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark-theme');
     } else {
-        setTheme(savedTheme);
+        document.documentElement.classList.remove('dark-theme');
     }
 }
 
 window.onload = function() {
-    applyAutoTheme();
+    const savedTheme = localStorage.getItem('gw_hub_theme') || 'auto';
+    setTheme(savedTheme);
+
     const isAuth = localStorage.getItem('gw_hub_auth');
     const savedUser = localStorage.getItem('gw_hub_user');
     const users = getUsers();
@@ -323,7 +553,7 @@ function filterTools(category) {
     const users = getUsers();
     const user = users[currentUser];
     
-    if (user && !user.allowed.includes(category)) {
+    if (user && user.allowed && !user.allowed.includes(category)) {
         return filterTools(user.allowed[0]);
     }
 
@@ -337,4 +567,16 @@ function filterTools(category) {
         s.style.display = (s.id === 'section-' + category) ? 'block' : 'none';
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+window.onclick = function(event) {
+    if (!event.target.matches('.theme-dropbtn')) {
+        const dropdowns = document.getElementsByClassName("theme-dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+            const openDropdown = dropdowns[i];
+            if (openDropdown.parentElement.classList.contains('show')) {
+                openDropdown.parentElement.classList.remove('show');
+            }
+        }
+    }
 }

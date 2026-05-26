@@ -467,3 +467,158 @@ body::before {
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+/* Form Styling Refinement */
+.form-group {
+    margin-bottom: 1.25rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input, .custom-select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-main) !important;
+    padding: 0.8rem 1rem !important;
+    border-radius: 12px !important;
+    font-size: 0.95rem !important;
+    outline: none !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Fix for dark mode dropdown options visibility */
+.custom-select option {
+    background-color: #1e293b; /* Solid dark color for options */
+    color: #f8fafc;
+    padding: 10px;
+}
+
+.form-group input:focus, .custom-select:focus {
+    border-color: var(--primary-color) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1) !important;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Custom Upload UI */
+.upload-wrapper {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px dashed var(--glass-border);
+}
+
+.preview-box {
+    width: 64px;
+    height: 64px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1px solid var(--glass-border);
+}
+
+.preview-box img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+#preview-placeholder {
+    font-size: 1.5rem;
+    opacity: 0.5;
+}
+
+.upload-controls {
+    flex-grow: 1;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-main);
+    transition: all 0.2s;
+}
+
+.custom-file-upload:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary-color);
+}
+
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+
+.file-hint {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+
+/* Buttons in Modals */
+.primary-btn {
+    flex: 1;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+}
+
+.secondary-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    border: 1px solid var(--glass-border);
+    padding: 1rem 1.5rem;
+    border-radius: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Tool List in Modal */
+#tool-list-mgmt > div {
+    transition: all 0.2s;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+#tool-list-mgmt > div:hover {
+    background: rgba(255, 255, 255, 0.05);
+}

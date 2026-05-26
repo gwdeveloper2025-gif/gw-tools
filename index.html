@@ -13,15 +13,23 @@
 <div id="login-overlay">
     <div class="login-box">
         <h2>GW Tools Hub</h2>
-        <input type="text" id="username-input" placeholder="Username" autofocus>
-        <input type="password" id="password-input" placeholder="Password">
         
-        <div style="margin-bottom: 20px; text-align: left; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-            <input type="checkbox" id="remember-me" style="width: auto; margin: 0; cursor: pointer;">
-            <label for="remember-me" style="font-size: 0.9rem; color: #94a3b8; cursor: pointer;">Remember Me</label>
+        <div class="form-group">
+            <label>ชื่อผู้ใช้งาน (Username)</label>
+            <input type="text" id="username-input" placeholder="Enter username" autofocus>
         </div>
 
-        <button onclick="checkPassword()">Login</button>
+        <div class="form-group">
+            <label>รหัสผ่าน (Password)</label>
+            <input type="password" id="password-input" placeholder="Enter password">
+        </div>
+        
+        <div style="margin-bottom: 25px; text-align: left; display: flex; align-items: center; gap: 10px; cursor: pointer;">
+            <input type="checkbox" id="remember-me" style="width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: var(--primary-color);">
+            <label for="remember-me" style="font-size: 0.9rem; color: var(--text-muted); cursor: pointer;">Remember Me (อยู่ในระบบตลอดไป)</label>
+        </div>
+
+        <button class="primary-btn" onclick="checkPassword()" style="font-size: 1.1rem; padding: 1.1rem;">เข้าสู่ระบบ</button>
     </div>
 </div>
 
@@ -29,9 +37,9 @@
 <div id="custom-alert" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
     <div class="login-box">
         <div style="font-size: 3rem; margin-bottom: 10px;">❌</div>
-        <h3>รหัสผ่านไม่ถูกต้อง!</h3>
-        <p>กรุณาตรวจสอบและลองใหม่อีกครั้ง</p>
-        <button onclick="closeAlert()" style="background: #e53e3e; margin-top: 20px;">ตกลง</button>
+        <h3 style="color: #ef4444;">ข้อมูลไม่ถูกต้อง!</h3>
+        <p>กรุณาตรวจสอบชื่อผู้ใช้งานและรหัสผ่านอีกครั้ง</p>
+        <button class="primary-btn" onclick="closeAlert()" style="background: #ef4444; margin-top: 25px; border-radius: 12px; height: 50px;">เข้าใจแล้ว</button>
     </div>
 </div>
 
@@ -41,9 +49,9 @@
         <div style="font-size: 3rem; margin-bottom: 10px;">👋</div>
         <h3>ต้องการออกจากระบบ?</h3>
         <p>คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบในตอนนี้?</p>
-        <div style="display: flex; gap: 10px; margin-top: 25px;">
-            <button onclick="closeLogoutConfirm()" style="background: rgba(255,255,255,0.1); color: white;">ยกเลิก</button>
-            <button onclick="confirmLogout()" style="background: #ef4444;">ออกจากระบบ</button>
+        <div style="display: flex; gap: 12px; margin-top: 25px;">
+            <button class="secondary-btn" onclick="closeLogoutConfirm()" style="flex: 1;">ยกเลิก</button>
+            <button class="primary-btn" onclick="confirmLogout()" style="background: #ef4444; flex: 1;">ออกจากระบบ</button>
         </div>
     </div>
 </div>
@@ -53,15 +61,26 @@
     <div class="login-box">
         <div style="font-size: 2.5rem; margin-bottom: 10px;">🔑</div>
         <h3>เปลี่ยนรหัสผ่าน</h3>
-        <p id="pw-user-display" style="margin-bottom: 20px; color: var(--primary-color); font-weight: bold;"></p>
+        <p id="pw-user-display" style="margin-bottom: 20px; color: var(--primary-color); font-weight: bold; font-size: 0.9rem;"></p>
         
-        <input type="password" id="current-pw" placeholder="รหัสผ่านปัจจุบัน" style="margin-bottom: 10px;">
-        <input type="password" id="new-pw" placeholder="รหัสผ่านใหม่" style="margin-bottom: 10px;">
-        <input type="password" id="confirm-pw" placeholder="ยืนยันรหัสผ่านใหม่" style="margin-bottom: 20px;">
+        <div class="form-group">
+            <label>รหัสผ่านปัจจุบัน</label>
+            <input type="password" id="current-pw" placeholder="••••••••">
+        </div>
+
+        <div class="form-group">
+            <label>รหัสผ่านใหม่</label>
+            <input type="password" id="new-pw" placeholder="••••••••">
+        </div>
+
+        <div class="form-group">
+            <label>ยืนยันรหัสผ่านใหม่</label>
+            <input type="password" id="confirm-pw" placeholder="••••••••">
+        </div>
         
-        <div style="display: flex; gap: 10px;">
-            <button onclick="closeChangePasswordModal()" style="background: rgba(255,255,255,0.1); color: white;">ยกเลิก</button>
-            <button onclick="submitChangePassword()" style="background: var(--primary-color);">บันทึก</button>
+        <div style="display: flex; gap: 12px; margin-top: 10px;">
+            <button class="primary-btn" onclick="submitChangePassword()">บันทึก</button>
+            <button class="secondary-btn" onclick="closeChangePasswordModal()">ยกเลิก</button>
         </div>
     </div>
 </div>
@@ -76,13 +95,28 @@
             <!-- Users will be listed here -->
         </div>
 
-        <div style="border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: left;">
-            <h4 style="margin-bottom: 15px;">เพิ่มพนักงานใหม่</h4>
-            <input type="text" id="new-username" placeholder="ชื่อพนักงาน (Username)" style="margin-bottom: 10px;">
-            <input type="text" id="new-role" placeholder="ตำแหน่ง (Role)" style="margin-bottom: 10px;">
+        <div style="border-top: 1px solid var(--glass-border); padding-top: 25px; text-align: left;">
+            <h4 style="margin-bottom: 20px; font-size: 1.2rem; font-weight: 700;">เพิ่มพนักงานใหม่</h4>
             
-            <div style="margin-bottom: 20px;">
-                <p style="font-size: 0.9rem; margin-bottom: 12px; color: var(--text-muted); font-weight: 600;">การเข้าถึงหมวดหมู่:</p>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ชื่อพนักงาน (Username)</label>
+                    <input type="text" id="new-username" placeholder="ระบุ username...">
+                </div>
+                <div class="form-group">
+                    <label>ตำแหน่ง (Role)</label>
+                    <select id="new-role" class="custom-select">
+                        <option value="Manager">Manager</option>
+                        <option value="Head">Head</option>
+                        <option value="Lead">Lead</option>
+                        <option value="Senior">Senior</option>
+                        <option value="Junior">Junior</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>การเข้าถึงหมวดหมู่ (Access Control)</label>
                 <div class="cat-access-grid">
                     <label class="cat-label">
                         <input type="checkbox" class="cat-access" value="common" checked disabled>
@@ -103,10 +137,10 @@
                 </div>
             </div>
             
-            <button onclick="addNewUser()" style="background: var(--accent-color); margin-bottom: 10px;">เพิ่มพนักงาน</button>
+            <button class="primary-btn" onclick="addNewUser()" style="width: 100%;">เพิ่มพนักงานเข้าสู่ระบบ</button>
         </div>
         
-        <button onclick="closeUserMgmtModal()" style="background: rgba(255,255,255,0.1); color: white; margin-top: 10px;">ปิด</button>
+        <button onclick="closeUserMgmtModal()" style="background: rgba(255,255,255,0.1); color: white; margin-top: 20px; width: 100%; border: none; padding: 12px; border-radius: 12px; cursor: pointer;">ปิด</button>
     </div>
 </div>
 
@@ -120,6 +154,7 @@
         </div>
         
         <div class="nav-controls">
+            <button class="nav-btn hidden" id="tool-mgmt-btn" onclick="openToolMgmtModal()" style="border-color: #10b981;">🛠️ MANAGE TOOLS</button>
             <button class="nav-btn hidden" id="admin-mgmt-btn" onclick="openUserMgmtModal()" style="border-color: var(--accent-color);">👥 MANAGE USERS</button>
             <button class="nav-btn" onclick="openChangePasswordModal()" style="border-color: rgba(99, 102, 241, 0.3);">🔑 PASSWORD</button>
             <div class="theme-dropdown" id="theme-dropdown">
@@ -137,134 +172,109 @@
         </div>
     </nav>
 
+<!-- Tool Management Modal -->
+<div id="tool-mgmt-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
+    <div class="login-box" style="max-width: 600px; width: 95%; max-height: 90vh; overflow-y: auto;">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">🛠️</div>
+        <h3>จัดการเครื่องมือ</h3>
+        
+        <div id="tool-list-mgmt" style="text-align: left; margin: 20px 0; max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 10px;">
+            <!-- Tools will be listed here -->
+        </div>
+
+        <div style="border-top: 1px solid var(--glass-border); padding-top: 25px; text-align: left;">
+            <h4 id="tool-form-title" style="margin-bottom: 20px; font-size: 1.2rem; font-weight: 700; color: var(--text-main);">เพิ่มเครื่องมือใหม่</h4>
+            <input type="hidden" id="edit-tool-id">
+            
+            <div class="form-group">
+                <label>ชื่อเครื่องมือ (Title)</label>
+                <input type="text" id="tool-name" placeholder="ระบุชื่อเครื่องมือ...">
+            </div>
+
+            <div class="form-group">
+                <label>ลิงก์ URL (Link)</label>
+                <input type="text" id="tool-url" placeholder="https://...">
+            </div>
+
+            <div class="form-group">
+                <label>คำอธิบายสั้นๆ (Description)</label>
+                <input type="text" id="tool-desc" placeholder="ผู้ช่วยเขียนบทความด้วย AI...">
+            </div>
+            
+            <div class="form-group">
+                <label>ไอคอนเครื่องมือ (Icon)</label>
+                <div class="upload-wrapper">
+                    <div id="image-preview-container" class="preview-box">
+                        <img id="image-preview" src="">
+                        <span id="preview-placeholder">🖼️</span>
+                    </div>
+                    <div class="upload-controls">
+                        <label for="tool-image-file" class="custom-file-upload">
+                            <span>📂 เลือกไฟล์ภาพ</span>
+                            <input type="file" id="tool-image-file" accept="image/*">
+                        </label>
+                        <p class="file-hint">รองรับ PNG, JPG, SVG (ขนาดแนะนำ 1:1)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>แผนกที่ระบุ (Department)</label>
+                    <input type="text" id="tool-dept-text" placeholder="แผนก BD, Sales">
+                </div>
+                <div class="form-group">
+                    <label>ข้อความบนปุ่ม (Button)</label>
+                    <input type="text" id="tool-btn-text" placeholder="เข้าสู่ระบบ">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>หมวดหมู่หลัก (Category)</label>
+                <select id="tool-category" class="custom-select">
+                    <option value="common">Common</option>
+                    <option value="bd">BD & Sales</option>
+                    <option value="project">Project Management</option>
+                    <option value="marketing">Marketing</option>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 25px;">
+                <button id="btn-save-tool" class="primary-btn" onclick="saveTool()">บันทึกเครื่องมือ</button>
+                <button id="btn-cancel-edit" class="secondary-btn hidden" onclick="resetToolForm()">ยกเลิก</button>
+            </div>
+        </div>
+        
+        <button onclick="closeToolMgmtModal()" style="background: rgba(255,255,255,0.1); color: white; margin-top: 20px; width: 100%;">ปิด</button>
+    </div>
+</div>
+
 <div class="container">
     <!-- Common Tools -->
     <div class="category-section" id="section-common">
         <div class="section-title">Common Tools</div>
-        <div class="tool-grid">
-            <a href="https://chatgpt.com/" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="chatgpt.img.svg" alt="ChatGPT"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">Common (ทุกแผนก)</div>
-                    <div class="tool-title">Chat GPT</div>
-                    <div class="tool-description">ผู้ช่วยอัจฉริยะสำหรับหาข้อมูล เขียนบทความ และแก้ปัญหาด่วน</div>
-                    <div class="btn-access">คุยกับ ChatGPT</div>
-                </div>
-            </a>
-            <a href="https://drive.google.com/" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="google-drive.png" alt="Google Drive"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">Common (ทุกแผนก)</div>
-                    <div class="tool-title">Google Drive</div>
-                    <div class="tool-description">คลังเก็บข้อมูลออนไลน์สำหรับจัดการไฟล์และแชร์ข้อมูล</div>
-                    <div class="btn-access">เปิด Google Drive</div>
-                </div>
-            </a>
-        </div>
+        <div class="tool-grid" id="grid-common"></div>
     </div>
 
     <!-- Business Development & Sales -->
     <div class="category-section" id="section-bd">
         <div class="section-title">Business Development & Sales</div>
-        <div class="tool-grid">
-            <a href="https://dabby.io/" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="dabby.img.png" alt="Dabby"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">แผนก BD</div>
-                    <div class="tool-title">Dabby.io</div>
-                    <div class="tool-description">ระบบ AI Engine สำหรับจัดการ Chatbot และ Prompts</div>
-                    <div class="btn-access">เข้าสู่ระบบ Dabby</div>
-                </div>
-            </a>
-            <a href="https://manager.line.biz/" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="line.img.svg" alt="Line"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">แผนก BD, Sales</div>
-                    <div class="tool-title">Line OA</div>
-                    <div class="tool-description">ระบบจัดการบัญชี Line Official สำหรับสื่อสารกับลูกค้า</div>
-                    <div class="btn-access">เปิด Line Manager</div>
-                </div>
-            </a>
-            <a href="https://salegoodwork-2026.atlassian.net/jira/for-you" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="jira.img.png" alt="Jira"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">แผนก BD</div>
-                    <div class="tool-title">Jira Software</div>
-                    <div class="tool-description">ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม</div>
-                    <div class="btn-access">เปิดหน้างาน Jira</div>
-                </div>
-            </a>
-            <a href="https://www.calloncloud.io/" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="calloncloud.ico" alt="CallOnCloud"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">แผนก BD&Sale</div>
-                    <div class="tool-title">Call On Cloud</div>
-                    <div class="tool-description">ระบบ centralino VoIP และการสื่อสารในองค์กร</div>
-                    <div class="btn-access">เข้าสู่ Call On Cloud</div>
-                </div>
-            </a>
-            <a href="https://github.com/" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" style="filter: invert(1);" alt="GitHub"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">แผนก BD</div>
-                    <div class="tool-title">GitHub</div>
-                    <div class="tool-description">ระบบจัดการซอร์สโค้ดและติดตามการแก้ไขของโปรเจกต์</div>
-                    <div class="btn-access">เข้าสู่ GitHub</div>
-                </div>
-            </a>
-        </div>
+        <div class="tool-grid" id="grid-bd"></div>
     </div>
 
     <!-- Project Management -->
     <div class="category-section" id="section-project">
         <div class="section-title">Project Management</div>
-        <div class="tool-grid">
-            <a href="https://trello.com/" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="trello.img.png" alt="Trello"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">แผนก Project</div>
-                    <div class="tool-title">Trello</div>
-                    <div class="tool-description">บอร์ดจัดการงานภาพรวมและติดตามสถานะโครงการ</div>
-                    <div class="btn-access">เปิดบอร์ด Trello</div>
-                </div>
-            </a>
-        </div>
+        <div class="tool-grid" id="grid-project"></div>
     </div>
 
     <!-- Marketing -->
     <div class="category-section" id="section-marketing">
         <div class="section-title">Marketing</div>
-        <div class="tool-grid">
-            <a href="https://miro.com/th/" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="miro.jpg" alt="Miro"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">แผนก Marketing</div>
-                    <div class="tool-title">Miro</div>
-                    <div class="tool-description">ไวท์บอร์ดออนไลน์สำหรับระดมสมองและวางแผน</div>
-                    <div class="btn-access">เปิด Miro</div>
-                </div>
-            </a>
-            <a href="https://kling.ai/app/video/new" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="kling.png" alt="Kling"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">แผนก Marketing</div>
-                    <div class="tool-title">Kling</div>
-                    <div class="tool-description">แพลตฟอร์มสร้างวิดีโออัตโนมัติด้วย AI</div>
-                    <div class="btn-access">เปิด Kling</div>
-                </div>
-            </a>
-            <a href="https://salegoodwork-2026.atlassian.net/jira/for-you" target="_blank" class="tool-card">
-                <div class="tool-image"><img src="jira.img.png" alt="Jira"></div>
-                <div class="tool-content">
-                    <div class="tool-dept">แผนก Marketing</div>
-                    <div class="tool-title">Jira Software</div>
-                    <div class="tool-description">ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม</div>
-                    <div class="btn-access">เปิดหน้างาน Jira</div>
-                </div>
-            </a>
-        </div>
+        <div class="tool-grid" id="grid-marketing"></div>
     </div>
 </div> <!-- End of container -->
+
 </div> <!-- End of main-content -->
 
 <script src="script.js"></script>
