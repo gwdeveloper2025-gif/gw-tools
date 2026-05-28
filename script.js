@@ -1,6 +1,14 @@
-// GW Tools Hub - Core Logic v1.6.0
-const VERSION = '1.6.0';
+// GW Tools Hub - Core Logic v1.7.0 (Secure Edition)
+const VERSION = '1.7.0';
 const DEFAULT_PASSWORD = 'goodwork';
+
+// Security Utility: SHA-256 Hashing
+async function hashPassword(password) {
+    const msgUint8 = new TextEncoder().encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 // Check for version update and clear cache if needed
 const savedVersion = localStorage.getItem('gw_hub_version');
@@ -9,7 +17,7 @@ if (savedVersion !== VERSION) {
     localStorage.removeItem('gw_hub_tools');
     localStorage.removeItem('gw_hub_passwords');
     localStorage.setItem('gw_hub_version', VERSION);
-    console.log('System updated to v' + VERSION + '. Local data reset.');
+    console.log('System updated to v' + VERSION + '. Local data reset for security.');
 }
 
 const INITIAL_USERS = {
@@ -57,34 +65,34 @@ function getTools() {
     return JSON.parse(tools);
 }
 
-// Initialize or get passwords from localStorage
-function getPasswords() {
+// Initialize or get hashed passwords from localStorage
+async function getPasswords() {
     let passwords = localStorage.getItem('gw_hub_passwords');
     if (!passwords) {
         passwords = {};
         const users = getUsers();
-        Object.keys(users).forEach(user => {
-            if (user === 'admin') {
-                passwords[user] = 'admin';
-            } else {
-                passwords[user] = DEFAULT_PASSWORD;
-            }
-        });
+        const defaultHash = await hashPassword(DEFAULT_PASSWORD);
+        const adminHash = await hashPassword('admin');
+
+        for (const user of Object.keys(users)) {
+            passwords[user] = (user === 'admin') ? adminHash : defaultHash;
+        }
         localStorage.setItem('gw_hub_passwords', JSON.stringify(passwords));
         return passwords;
     }
     return JSON.parse(passwords);
 }
 
-function checkPassword() {
+async function checkPassword() {
     const username = document.getElementById('username-input').value.trim();
     const password = document.getElementById('password-input').value;
     const rememberMe = document.getElementById('remember-me').checked;
     
     const users = getUsers();
-    const passwords = getPasswords();
+    const passwords = await getPasswords();
+    const inputHash = await hashPassword(password);
 
-    if (users[username] && passwords[username] === password) {
+    if (users[username] && passwords[username] === inputHash) {
         if (rememberMe) {
             localStorage.setItem('gw_hub_auth', 'true');
             localStorage.setItem('gw_hub_user', username);
@@ -131,6 +139,10 @@ function showMainContent(username) {
         document.getElementById('tool-mgmt-btn').classList.add('hidden');
     }
 
+    // Initialize Greeting & Clock
+    updateGreeting(username);
+    startClock();
+
     // Render Tools
     renderTools(username);
 
@@ -147,6 +159,70 @@ function showMainContent(username) {
 
     // Default to first allowed category
     filterTools(user.allowed[0]);
+}
+
+function handleSearch() {
+    const query = document.getElementById('tool-search').value.toLowerCase();
+    const currentCategory = document.querySelector('.nav-btn.active').id.replace('btn-', '');
+    const grid = document.getElementById('grid-' + currentCategory);
+    const cards = grid.querySelectorAll('.tool-card-wrapper');
+
+    cards.forEach(card => {
+        const title = card.querySelector('.tool-title').innerText.toLowerCase();
+        const desc = card.querySelector('.tool-description').innerText.toLowerCase();
+        const dept = card.querySelector('.tool-dept').innerText.toLowerCase();
+
+        if (title.includes(query) || desc.includes(query) || dept.includes(query)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function updateGreeting(username) {
+    const users = getUsers();
+    const user = users[username];
+    const hour = new Date().getHours();
+    let greeting = '';
+    let subtext = '';
+
+    if (hour < 12) {
+        greeting = `สวัสดีตอนเช้าครับคุณ ${username}! ☀️`;
+        subtext = 'หิวข้าวหรือยัง? อีกนิดเดียวก็จะเที่ยงแล้วนะ!';
+    } else if (hour < 17) {
+        greeting = `สวัสดีตอนบ่ายครับคุณ ${username}! ☕`;
+        subtext = 'สู้ๆ กับงานในช่วงบ่ายนะครับ ทีม GoodWork เป็นกำลังใจให้!';
+    } else {
+        greeting = `สวัสดีตอนเย็นครับคุณ ${username}! 🌙`;
+        subtext = 'ใกล้เวลาพักผ่อนแล้ว อย่าลืมดูแลสุขภาพด้วยนะครับ';
+    }
+
+    if (ADMINS.includes(username)) {
+        subtext += ' วันนี้ระบบหลังบ้านปกติดีครับ ท่าน CEO';
+    }
+
+    document.getElementById('greeting-text').innerText = greeting;
+    document.getElementById('greeting-subtext').innerText = subtext;
+}
+
+function startClock() {
+    const clockElement = document.getElementById('live-clock');
+    if (!clockElement) return;
+
+    function updateTime() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('th-TH', { 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit',
+            hour12: false 
+        });
+        clockElement.innerText = timeStr;
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000);
 }
 
 function renderTools(username) {
@@ -236,7 +312,7 @@ function renderUserList() {
     });
 }
 
-function addNewUser() {
+async function addNewUser() {
     const username = document.getElementById('new-username').value.trim();
     const role = document.getElementById('new-role').value.trim();
     const categories = Array.from(document.querySelectorAll('.cat-access:checked')).map(cb => cb.value);
@@ -255,20 +331,19 @@ function addNewUser() {
     users[username] = { role: role, allowed: categories };
     localStorage.setItem('gw_hub_users', JSON.stringify(users));
 
-    // Initialize password
-    const passwords = getPasswords();
-    passwords[username] = DEFAULT_PASSWORD;
+    // Initialize hashed password
+    const passwords = await getPasswords();
+    passwords[username] = await hashPassword(DEFAULT_PASSWORD);
     localStorage.setItem('gw_hub_passwords', JSON.stringify(passwords));
 
     // Clear form
     document.getElementById('new-username').value = '';
-    document.getElementById('new-role').value = '';
     
     renderUserList();
     alert(`เพิ่มผู้ใช้งาน ${username} เรียบร้อยแล้ว! (รหัสผ่านเริ่มต้น: ${DEFAULT_PASSWORD})`);
 }
 
-function deleteUser(username) {
+async function deleteUser(username) {
     if (ADMINS.includes(username)) return;
     if (!confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้งาน ${username}?`)) return;
 
@@ -276,7 +351,7 @@ function deleteUser(username) {
     delete users[username];
     localStorage.setItem('gw_hub_users', JSON.stringify(users));
 
-    const passwords = getPasswords();
+    const passwords = await getPasswords();
     delete passwords[username];
     localStorage.setItem('gw_hub_passwords', JSON.stringify(passwords));
 
@@ -460,7 +535,7 @@ function deleteTool(id) {
 }
 
 // Password Change Functions
-function openChangePasswordModal() {
+async function openChangePasswordModal() {
     const currentUser = sessionStorage.getItem('gw_hub_current_user') || localStorage.getItem('gw_hub_user');
     document.getElementById('pw-user-display').innerText = `User: ${currentUser}`;
     document.getElementById('password-modal').classList.remove('hidden');
@@ -473,15 +548,16 @@ function closeChangePasswordModal() {
     document.getElementById('confirm-pw').value = '';
 }
 
-function submitChangePassword() {
+async function submitChangePassword() {
     const currentUser = sessionStorage.getItem('gw_hub_current_user') || localStorage.getItem('gw_hub_user');
     const currentInput = document.getElementById('current-pw').value;
     const newInput = document.getElementById('new-pw').value;
     const confirmInput = document.getElementById('confirm-pw').value;
 
-    const passwords = getPasswords();
+    const passwords = await getPasswords();
+    const currentInputHash = await hashPassword(currentInput);
 
-    if (currentInput !== passwords[currentUser]) {
+    if (currentInputHash !== passwords[currentUser]) {
         alert('รหัสผ่านปัจจุบันไม่ถูกต้อง');
         return;
     }
@@ -496,7 +572,7 @@ function submitChangePassword() {
         return;
     }
 
-    passwords[currentUser] = newInput;
+    passwords[currentUser] = await hashPassword(newInput);
     localStorage.setItem('gw_hub_passwords', JSON.stringify(passwords));
     alert('เปลี่ยนรหัสผ่านสำเร็จแล้ว!');
     closeChangePasswordModal();
@@ -513,7 +589,9 @@ function setTheme(theme) {
     
     const themeButtons = document.querySelectorAll('.theme-dropdown-content button');
     themeButtons.forEach(btn => btn.classList.remove('active'));
-    document.getElementById('theme-' + theme).classList.add('active');
+    
+    const activeBtn = document.getElementById('theme-' + theme);
+    if (activeBtn) activeBtn.classList.add('active');
 }
 
 function applyTheme(theme) {
@@ -522,29 +600,30 @@ function applyTheme(theme) {
     const text = document.getElementById('current-theme-text');
 
     if (theme === 'auto') {
-        applyAutoTheme();
-        icon.innerText = '💻';
-        text.innerText = 'Auto';
-    } else if (theme === 'light') {
-        root.classList.remove('dark-theme');
-        icon.innerText = '☀️';
-        text.innerText = 'Light';
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        if (icon) icon.innerText = '💻';
+        if (text) text.innerText = 'Auto';
     } else {
-        root.classList.add('dark-theme');
-        icon.innerText = '🌙';
-        text.innerText = 'Dark';
+        root.setAttribute('data-theme', theme);
+        if (theme === 'light') {
+            if (icon) icon.innerText = '☀️';
+            if (text) text.innerText = 'Light';
+        } else {
+            if (icon) icon.innerText = '🌙';
+            if (text) text.innerText = 'Dark';
+        }
     }
 }
 
-function applyAutoTheme() {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.classList.add('dark-theme');
-    } else {
-        document.documentElement.classList.remove('dark-theme');
+// Listen for system theme changes if in auto mode
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (localStorage.getItem('gw_hub_theme') === 'auto') {
+        applyTheme('auto');
     }
-}
+});
 
-window.onload = function() {
+window.onload = async function() {
     const savedTheme = localStorage.getItem('gw_hub_theme') || 'auto';
     setTheme(savedTheme);
 

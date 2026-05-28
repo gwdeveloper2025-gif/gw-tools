@@ -24,12 +24,12 @@
             <input type="password" id="password-input" placeholder="Enter password">
         </div>
         
-        <div style="margin-bottom: 25px; text-align: left; display: flex; align-items: center; gap: 10px; cursor: pointer;">
+        <div class="remember-me-container">
             <input type="checkbox" id="remember-me" style="width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: var(--primary-color);">
-            <label for="remember-me" style="font-size: 0.9rem; color: var(--text-muted); cursor: pointer;">Remember Me (อยู่ในระบบตลอดไป)</label>
+            <label for="remember-me">Remember Me (อยู่ในระบบตลอดไป)</label>
         </div>
 
-        <button class="primary-btn" onclick="checkPassword()" style="font-size: 1.1rem; padding: 1.1rem;">เข้าสู่ระบบ</button>
+        <button class="primary-btn" onclick="checkPassword()">เข้าสู่ระบบ</button>
     </div>
 </div>
 
@@ -39,7 +39,7 @@
         <div style="font-size: 3rem; margin-bottom: 10px;">❌</div>
         <h3 style="color: #ef4444;">ข้อมูลไม่ถูกต้อง!</h3>
         <p>กรุณาตรวจสอบชื่อผู้ใช้งานและรหัสผ่านอีกครั้ง</p>
-        <button class="primary-btn" onclick="closeAlert()" style="background: #ef4444; margin-top: 25px; border-radius: 12px; height: 50px;">เข้าใจแล้ว</button>
+        <button class="primary-btn" onclick="closeAlert()" style="background: #ef4444; margin-top: 20px;">เข้าใจแล้ว</button>
     </div>
 </div>
 
@@ -49,9 +49,9 @@
         <div style="font-size: 3rem; margin-bottom: 10px;">👋</div>
         <h3>ต้องการออกจากระบบ?</h3>
         <p>คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบในตอนนี้?</p>
-        <div style="display: flex; gap: 12px; margin-top: 25px;">
-            <button class="secondary-btn" onclick="closeLogoutConfirm()" style="flex: 1;">ยกเลิก</button>
-            <button class="primary-btn" onclick="confirmLogout()" style="background: #ef4444; flex: 1;">ออกจากระบบ</button>
+        <div class="modal-btn-group">
+            <button class="secondary-btn" onclick="closeLogoutConfirm()">ยกเลิก</button>
+            <button class="primary-btn" onclick="confirmLogout()" style="background: #ef4444;">ออกจากระบบ</button>
         </div>
     </div>
 </div>
@@ -152,6 +152,11 @@
             <button class="nav-btn" id="btn-project" onclick="filterTools('project')">PROJECT</button>
             <button class="nav-btn" id="btn-marketing" onclick="filterTools('marketing')">MARKETING</button>
         </div>
+
+        <div class="search-container">
+            <input type="text" id="tool-search" placeholder="ค้นหาเครื่องมือ..." onkeyup="handleSearch()">
+            <span class="search-icon">🔍</span>
+        </div>
         
         <div class="nav-controls">
             <button class="nav-btn hidden" id="tool-mgmt-btn" onclick="openToolMgmtModal()" style="border-color: #10b981;">🛠️ MANAGE TOOLS</button>
@@ -250,6 +255,14 @@
 </div>
 
 <div class="container">
+    <div id="greeting-wrapper" class="greeting-card">
+        <div class="greeting-content">
+            <h1 id="greeting-text">สวัสดีครับ!</h1>
+            <p id="greeting-subtext">กำลังเตรียมข้อมูลให้คุณอยู่...</p>
+        </div>
+        <div class="greeting-time" id="live-clock">00:00:00</div>
+    </div>
+
     <!-- Common Tools -->
     <div class="category-section" id="section-common">
         <div class="section-title">Common Tools</div>
