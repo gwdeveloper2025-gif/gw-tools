@@ -1,5 +1,5 @@
 // GW Tools Hub - Core Logic v2.0.0 (Open Access)
-const VERSION = '2.1.3';
+const VERSION = '2.1.4';
 
 // Check for version update and clear cache if needed
 const savedVersion = localStorage.getItem('gw_hub_version');
