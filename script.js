@@ -1,5 +1,5 @@
 // GW Tools Hub - Core Logic v2.0.0 (Open Access)
-const VERSION = '2.0.0';
+const VERSION = '2.1.2';
 
 // Check for version update and clear cache if needed
 const savedVersion = localStorage.getItem('gw_hub_version');
@@ -12,15 +12,26 @@ if (savedVersion !== VERSION) {
 const INITIAL_TOOLS = [
     { id: 1, category: 'common', title: 'Chat GPT', url: 'https://chatgpt.com/', desc: 'ผู้ช่วยอัจฉริยะสำหรับหาข้อมูล เขียนบทความ และแก้ปัญหาด่วน', img: 'chatgpt.img.svg', dept: 'Common (ทุกแผนก)', btn: 'คุยกับ ChatGPT' },
     { id: 2, category: 'common', title: 'Google Drive', url: 'https://drive.google.com/', desc: 'คลังเก็บข้อมูลออนไลน์สำหรับจัดการไฟล์และแชร์ข้อมูล', img: 'google-drive.png', dept: 'Common (ทุกแผนก)', btn: 'เปิด Google Drive' },
+    { id: 12, category: 'common', title: 'Gemini', url: 'https://gemini.google.com/', desc: 'AI ผู้ช่วยอัจฉริยะจาก Google สำหรับการทำงานและสร้างสรรค์', img: 'gemini.png', dept: 'Common (ทุกแผนก)', btn: 'คุยกับ Gemini' },
     { id: 3, category: 'bd', title: 'Dabby.io', url: 'https://dabby.io/', desc: 'ระบบ AI Engine สำหรับจัดการ Chatbot และ Prompts', img: 'dabby.img.png', dept: 'แผนก BD', btn: 'เข้าสู่ระบบ Dabby' },
     { id: 4, category: 'bd', title: 'Line OA', url: 'https://manager.line.biz/', desc: 'ระบบจัดการบัญชี Line Official สำหรับสื่อสารกับลูกค้า', img: 'line.img.svg', dept: 'แผนก BD, Sales', btn: 'เปิด Line Manager' },
     { id: 5, category: 'bd', title: 'Jira Software', url: 'https://salegoodwork-2026.atlassian.net/jira/for-you', desc: 'ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม', img: 'jira.img.png', dept: 'แผนก BD', btn: 'เปิดหน้างาน Jira' },
     { id: 6, category: 'bd', title: 'Call On Cloud', url: 'https://www.calloncloud.io/', desc: 'ระบบ centralino VoIP และการสื่อสารในองค์กร', img: 'calloncloud.ico', dept: 'แผนก BD&Sale', btn: 'เข้าสู่ Call On Cloud' },
     { id: 7, category: 'bd', title: 'GitHub', url: 'https://github.com/', desc: 'ระบบจัดการซอร์สโค้ดและติดตามการแก้ไขของโปรเจกต์', img: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png', dept: 'แผนก BD', btn: 'เข้าสู่ GitHub' },
     { id: 8, category: 'project', title: 'Trello', url: 'https://trello.com/', desc: 'บอร์ดจัดการงานภาพรวมและติดตามสถานะโครงการ', img: 'trello.img.png', dept: 'แผนก Project', btn: 'เปิดบอร์ด Trello' },
+    { id: 13, category: 'project', title: 'Google Sheets', url: 'https://docs.google.com/spreadsheets/', desc: 'จัดการข้อมูล ตารางคำนวณ และรายงานผลแบบเรียลไทม์', img: 'googlesheet.png', dept: 'แผนก Project', btn: 'เปิด Google Sheets' },
     { id: 9, category: 'marketing', title: 'Miro', url: 'https://miro.com/th/', desc: 'ไวท์บอร์ดออนไลน์สำหรับระดมสมองและวางแผน', img: 'miro.jpg', dept: 'แผนก Marketing', btn: 'เปิด Miro' },
     { id: 10, category: 'marketing', title: 'Kling', url: 'https://kling.ai/app/video/new', desc: 'แพลตฟอร์มสร้างวิดีโออัตโนมัติด้วย AI', img: 'kling.png', dept: 'แผนก Marketing', btn: 'เปิด Kling' },
-    { id: 11, category: 'marketing', title: 'Jira Software', url: 'https://salegoodwork-2026.atlassian.net/jira/for-you', desc: 'ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม', img: 'jira.img.png', dept: 'แผนก Marketing', btn: 'เปิดหน้างาน Jira' }
+    { id: 11, category: 'marketing', title: 'Jira Software', url: 'https://salegoodwork-2026.atlassian.net/jira/for-you', desc: 'ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม', img: 'jira.img.png', dept: 'แผนก Marketing', btn: 'เปิดหน้างาน Jira' },
+    { id: 14, category: 'marketing', title: 'YouTube', url: 'https://www.youtube.com/', desc: 'จัดการช่องและวิดีโอคอนเทนต์ของแบรนด์', img: 'Youtube.png', dept: 'แผนก Marketing', btn: 'เปิด YouTube' },
+    { id: 15, category: 'marketing', title: 'Google Ads', url: 'https://ads.google.com/', desc: 'ระบบจัดการโฆษณาและแคมเปญบน Google Search และเครือข่าย', img: 'googleads.webp', dept: 'แผนก Marketing', btn: 'จัดการ Google Ads' },
+    { id: 16, category: 'marketing', title: 'CapCut', url: 'https://www.capcut.com/', desc: 'เครื่องมือตัดต่อวิดีโอสำหรับ Social Media ที่ใช้งานง่ายและทรงพลัง', img: 'capcut.webp', dept: 'แผนก Marketing', btn: 'เริ่มตัดต่อ CapCut' },
+    { id: 17, category: 'marketing', title: 'Canva', url: 'https://www.canva.com/', desc: 'แพลตฟอร์มออกแบบกราฟิกและสื่อนำเสนอแบบมืออาชีพ', img: 'canva.png', dept: 'แผนก Marketing', btn: 'เปิด Canva' },
+    { id: 18, category: 'marketing', title: 'Meta Business Suite', url: 'https://business.facebook.com/', desc: 'ศูนย์กลางจัดการ Facebook และ Instagram สำหรับธุรกิจ', img: 'Meta.jfif', dept: 'แผนก Marketing', btn: 'เปิด Meta Business' },
+    { id: 19, category: 'marketing', title: 'Facebook', url: 'https://www.facebook.com/', desc: 'จัดการหน้าเพจและปฏิสัมพันธ์กับลูกค้าบน Facebook', img: 'facebook.png', dept: 'แผนก Marketing', btn: 'เปิด Facebook' },
+    { id: 20, category: 'marketing', title: 'Instagram', url: 'https://www.instagram.com/', desc: 'จัดการคอนเทนต์ภาพและวิดีโอสั้นบน Instagram', img: 'instagram.svg', dept: 'แผนก Marketing', btn: 'เปิด Instagram' },
+    { id: 21, category: 'marketing', title: 'TikTok', url: 'https://www.tiktok.com/', desc: 'จัดการคอนเทนต์และแคมเปญวิดีโอสั้นบน TikTok', img: 'tiktok.png', dept: 'แผนก Marketing', btn: 'เปิด TikTok' },
+    { id: 22, category: 'marketing', title: 'LinkedIn', url: 'https://www.linkedin.com/', desc: 'สร้างเครือข่ายธุรกิจและจัดการคอนเทนต์ระดับมืออาชีพ', img: 'linkin.jpg', dept: 'แผนก Marketing', btn: 'เปิด LinkedIn' }
 ];
 
 // Initialize or get tools from localStorage
