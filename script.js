@@ -214,23 +214,19 @@ function renderToolListMgmt() {
     
     tools.forEach(t => {
         const toolDiv = document.createElement('div');
-        toolDiv.style.display = 'flex';
-        toolDiv.style.justifyContent = 'space-between';
-        toolDiv.style.alignItems = 'center';
-        toolDiv.style.padding = '8px';
-        toolDiv.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+        toolDiv.className = 'mgmt-tool-item';
         
         toolDiv.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="${t.img}" style="width: 24px; height: 24px; border-radius: 4px;" onerror="this.src='https://via.placeholder.com/24'">
-                <div>
-                    <strong style="color: var(--primary-color); font-size: 0.9rem;">${t.title}</strong> 
-                    <div style="font-size: 0.7rem; color: var(--text-muted)">${t.category}</div>
+            <div class="mgmt-tool-info">
+                <img src="${t.img}" class="mgmt-tool-img" onerror="this.src='https://via.placeholder.com/45'">
+                <div class="mgmt-tool-details">
+                    <strong>${t.title}</strong>
+                    <span>${t.category}</span>
                 </div>
             </div>
-            <div style="display: flex; gap: 5px;">
-                <button onclick="editTool(${t.id})" style="background: var(--primary-color); width: auto; padding: 4px 8px; font-size: 0.7rem; border-radius: 6px;">แก้ไข</button>
-                <button onclick="deleteTool(${t.id})" style="background: #ef4444; width: auto; padding: 4px 8px; font-size: 0.7rem; border-radius: 6px;">ลบ</button>
+            <div class="mgmt-tool-actions">
+                <button class="mgmt-btn mgmt-btn-edit" onclick="editTool(${t.id})">แก้ไข</button>
+                <button class="mgmt-btn mgmt-btn-delete" onclick="deleteTool(${t.id})">ลบ</button>
             </div>
         `;
         listContainer.appendChild(toolDiv);

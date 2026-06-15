@@ -40,27 +40,31 @@
     </nav>
 
 <!-- Tool Management Modal -->
-<div id="tool-mgmt-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 10000;">
-    <div class="login-box" style="max-width: 600px; width: 95%; max-height: 90vh; overflow-y: auto;">
-        <div style="font-size: 2.5rem; margin-bottom: 10px;">🛠️</div>
-        <h3>จัดการเครื่องมือ</h3>
+<div id="tool-mgmt-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(5px);">
+    <div class="login-box">
+        <div style="font-size: 2.5rem; margin-bottom: 15px;">🛠️</div>
+        <h3>จัดการเครื่องมือระบบ</h3>
         
-        <div id="tool-list-mgmt" style="text-align: left; margin: 20px 0; max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 10px;">
+        <div id="tool-list-mgmt">
             <!-- Tools will be listed here -->
         </div>
 
-        <div style="border-top: 1px solid var(--glass-border); padding-top: 25px; text-align: left;">
-            <h4 id="tool-form-title" style="margin-bottom: 20px; font-size: 1.2rem; font-weight: 700; color: var(--text-main);">เพิ่มเครื่องมือใหม่</h4>
+        <div class="tool-form-container">
+            <h4 id="tool-form-title" style="margin-bottom: 25px; font-size: 1.3rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 10px;">
+                <span style="width: 8px; height: 25px; background: var(--premium-gradient); border-radius: 4px;"></span>
+                เพิ่มเครื่องมือใหม่
+            </h4>
             <input type="hidden" id="edit-tool-id">
             
-            <div class="form-group">
-                <label>ชื่อเครื่องมือ (Title)</label>
-                <input type="text" id="tool-name" placeholder="ระบุชื่อเครื่องมือ...">
-            </div>
-
-            <div class="form-group">
-                <label>ลิงก์ URL (Link)</label>
-                <input type="text" id="tool-url" placeholder="https://...">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ชื่อเครื่องมือ (Title)</label>
+                    <input type="text" id="tool-name" placeholder="เช่น ChatGPT, Jira...">
+                </div>
+                <div class="form-group">
+                    <label>ลิงก์ URL (Link)</label>
+                    <input type="text" id="tool-url" placeholder="https://...">
+                </div>
             </div>
 
             <div class="form-group">
@@ -72,7 +76,7 @@
                 <label>ไอคอนเครื่องมือ (Icon)</label>
                 <div class="upload-wrapper">
                     <div id="image-preview-container" class="preview-box">
-                        <img id="image-preview" src="">
+                        <img id="image-preview" src="" style="display: none;">
                         <span id="preview-placeholder">🖼️</span>
                     </div>
                     <div class="upload-controls">
@@ -80,7 +84,7 @@
                             <span>📂 เลือกไฟล์ภาพ</span>
                             <input type="file" id="tool-image-file" accept="image/*">
                         </label>
-                        <p class="file-hint">รองรับ PNG, JPG, SVG (ขนาดแนะนำ 1:1)</p>
+                        <p class="file-hint">แนะนำไฟล์ PNG/SVG (ขนาด 1:1)</p>
                     </div>
                 </div>
             </div>
@@ -88,7 +92,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label>แผนกที่ระบุ (Department)</label>
-                    <input type="text" id="tool-dept-text" placeholder="แผนก BD, Sales">
+                    <input type="text" id="tool-dept-text" placeholder="แผนก BD, Marketing">
                 </div>
                 <div class="form-group">
                     <label>ข้อความบนปุ่ม (Button)</label>
@@ -99,20 +103,20 @@
             <div class="form-group">
                 <label>หมวดหมู่หลัก (Category)</label>
                 <select id="tool-category" class="custom-select">
-                    <option value="common">Common</option>
+                    <option value="common">Common Tools</option>
                     <option value="bd">BD & Sales</option>
                     <option value="project">Project Management</option>
                     <option value="marketing">Marketing</option>
                 </select>
             </div>
 
-            <div style="display: flex; gap: 12px; margin-top: 25px;">
-                <button id="btn-save-tool" class="primary-btn" onclick="saveTool()">บันทึกเครื่องมือ</button>
-                <button id="btn-cancel-edit" class="secondary-btn hidden" onclick="resetToolForm()">ยกเลิก</button>
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button id="btn-save-tool" class="primary-btn" style="flex: 2;" onclick="saveTool()">บันทึกข้อมูล</button>
+                <button id="btn-cancel-edit" class="secondary-btn hidden" style="flex: 1;" onclick="resetToolForm()">ยกเลิก</button>
             </div>
         </div>
         
-        <button onclick="closeToolMgmtModal()" style="background: rgba(255,255,255,0.1); color: white; margin-top: 20px; width: 100%;">ปิด</button>
+        <button class="close-modal-btn" onclick="closeToolMgmtModal()">ปิดหน้าต่างจัดการ</button>
     </div>
 </div>
 
