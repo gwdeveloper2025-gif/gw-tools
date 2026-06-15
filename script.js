@@ -1,5 +1,5 @@
 // GW Tools Hub - Core Logic v2.0.0 (Open Access)
-const VERSION = '2.1.2';
+const VERSION = '2.1.3';
 
 // Check for version update and clear cache if needed
 const savedVersion = localStorage.getItem('gw_hub_version');
@@ -20,6 +20,8 @@ const INITIAL_TOOLS = [
     { id: 7, category: 'bd', title: 'GitHub', url: 'https://github.com/', desc: 'ระบบจัดการซอร์สโค้ดและติดตามการแก้ไขของโปรเจกต์', img: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png', dept: 'แผนก BD', btn: 'เข้าสู่ GitHub' },
     { id: 8, category: 'project', title: 'Trello', url: 'https://trello.com/', desc: 'บอร์ดจัดการงานภาพรวมและติดตามสถานะโครงการ', img: 'trello.img.png', dept: 'แผนก Project', btn: 'เปิดบอร์ด Trello' },
     { id: 13, category: 'project', title: 'Google Sheets', url: 'https://docs.google.com/spreadsheets/', desc: 'จัดการข้อมูล ตารางคำนวณ และรายงานผลแบบเรียลไทม์', img: 'googlesheet.png', dept: 'แผนก Project', btn: 'เปิด Google Sheets' },
+    { id: 23, category: 'project', title: 'Project Timeline', url: 'https://docs.google.com/spreadsheets/d/1iimLA8gGO5v3hP0sSSt6C65sB6Qj8aVw/edit?gid=124155317#gid=124155317', desc: 'Goodwork Kitchen QS - ตารางเวลาการดำเนินงานโปรเจกต์', img: 'googlesheet.png', dept: 'แผนก Project', btn: 'PROJECT TIMELINE' },
+    { id: 24, category: 'project', title: 'Stock สินค้ามือสอง', url: 'https://docs.google.com/spreadsheets/d/148hrYp1SN8WQcgciccrqHJdzDmTXPA7OO-RI03wMRa0/edit?usp=sharing', desc: 'Goodwork Kitchen QS - ระบบจัดการสต็อกสินค้ามือสอง', img: 'googlesheet.png', dept: 'แผนก Project', btn: 'STOCK สินค้ามือสอง' },
     { id: 9, category: 'marketing', title: 'Miro', url: 'https://miro.com/th/', desc: 'ไวท์บอร์ดออนไลน์สำหรับระดมสมองและวางแผน', img: 'miro.jpg', dept: 'แผนก Marketing', btn: 'เปิด Miro' },
     { id: 10, category: 'marketing', title: 'Kling', url: 'https://kling.ai/app/video/new', desc: 'แพลตฟอร์มสร้างวิดีโออัตโนมัติด้วย AI', img: 'kling.png', dept: 'แผนก Marketing', btn: 'เปิด Kling' },
     { id: 11, category: 'marketing', title: 'Jira Software', url: 'https://salegoodwork-2026.atlassian.net/jira/for-you', desc: 'ติดตามงานโปรเจกต์และจัดการ Task ต่างๆ ของทีม', img: 'jira.img.png', dept: 'แผนก Marketing', btn: 'เปิดหน้างาน Jira' },
