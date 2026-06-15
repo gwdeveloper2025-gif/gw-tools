@@ -1,5 +1,5 @@
-// GW Tools Hub - Core Logic v2.0.0 (Open Access)
-const VERSION = '2.1.4';
+// GW Tools Hub - Core Logic v2.2.1 (Local Assets Update)
+const VERSION = '2.2.1';
 
 // Check for version update and clear cache if needed
 const savedVersion = localStorage.getItem('gw_hub_version');
@@ -33,7 +33,14 @@ const INITIAL_TOOLS = [
     { id: 19, category: 'marketing', title: 'Facebook', url: 'https://www.facebook.com/', desc: 'จัดการหน้าเพจและปฏิสัมพันธ์กับลูกค้าบน Facebook', img: 'facebook.png', dept: 'แผนก Marketing', btn: 'เปิด Facebook' },
     { id: 20, category: 'marketing', title: 'Instagram', url: 'https://www.instagram.com/', desc: 'จัดการคอนเทนต์ภาพและวิดีโอสั้นบน Instagram', img: 'instagram.svg', dept: 'แผนก Marketing', btn: 'เปิด Instagram' },
     { id: 21, category: 'marketing', title: 'TikTok', url: 'https://www.tiktok.com/', desc: 'จัดการคอนเทนต์และแคมเปญวิดีโอสั้นบน TikTok', img: 'tiktok.png', dept: 'แผนก Marketing', btn: 'เปิด TikTok' },
-    { id: 22, category: 'marketing', title: 'LinkedIn', url: 'https://www.linkedin.com/', desc: 'สร้างเครือข่ายธุรกิจและจัดการคอนเทนต์ระดับมืออาชีพ', img: 'linkin.jpg', dept: 'แผนก Marketing', btn: 'เปิด LinkedIn' }
+    { id: 22, category: 'marketing', title: 'LinkedIn', url: 'https://www.linkedin.com/', desc: 'สร้างเครือข่ายธุรกิจและจัดการคอนเทนต์ระดับมืออาชีพ', img: 'linkin.jpg', dept: 'แผนก Marketing', btn: 'เปิด LinkedIn' },
+    { id: 25, category: 'admin', title: 'E-GP', url: 'https://www.gprocurement.go.th/new_index.html', desc: 'ระบบจัดซื้อจัดจ้างภาครัฐด้วยอิเล็กทรอนิกส์', img: 'E-GP.jpg', dept: 'แผนก Admin, Sales', btn: 'เข้าสู่ระบบ E-GP' },
+    { id: 26, category: 'admin', title: 'FLOWACCOUNT', url: 'https://advance.flowaccount.com/N362143/business/quotations', desc: 'ระบบบัญชีออนไลน์และจัดการใบเสนอราคา', img: 'FlowAccount.png', dept: 'แผนก Admin, Sales', btn: 'เปิด FlowAccount' },
+    { id: 27, category: 'admin', title: 'E-TAX INV CENTRALLY', url: 'https://interapp3.rd.go.th/signed_inter/src_inter/main.php?act=1', desc: 'ระบบการขอจัดทำใบกำกับภาษี โดยการประทับรับรองเวลา', img: 'E-tax inv centrally.png', dept: 'แผนก Admin, Sales', btn: 'เปิด E-Tax Inv' },
+    { id: 28, category: 'admin', title: 'GFMIS', url: 'https://vendors.gfmis.go.th/login', desc: 'ระบบเรียกดูข้อมูลการจ่ายชำระเงิน หน่วยงานรัฐบาล', img: 'GFMIS.png', dept: 'แผนก Admin, Sales', btn: 'เข้าสู่ GFMIS' },
+    { id: 29, category: 'admin', title: 'THAI SME-GP', url: 'https://thaismegp.sme.go.th/loginv2?redirectUrl=%2Faccount%2Fsme%2Fadd-sme', desc: 'ระบบขึ้นทะเบียนผู้ประกอบการ SME เพื่อการจัดซื้อจัดจ้างภาครัฐ', img: 'thaisme-gp.png', dept: 'แผนก Admin, Sales', btn: 'เปิด SME-GP' },
+    { id: 30, category: 'admin', title: 'SSO e-Service', url: 'https://www.sso.go.th/eservices/esv/index.jsp', desc: 'ระบบบริการอิเล็กทรอนิกส์ สำนักงานประกันสังคม', img: 'sso e-service.png', dept: 'แผนก Admin, Sales', btn: 'เปิด SSO Service' },
+    { id: 31, category: 'admin', title: 'HUMAN SOFT', url: 'https://hrgoodwork.humansoft.co.th/salary/calculate/normal', desc: 'ระบบจัดการทรัพยากรบุคคลและคำนวณเงินเดือน', img: 'human soft.png', dept: 'แผนก Admin, Sales', btn: 'เปิด Human Soft' }
 ];
 
 // Initialize or get tools from localStorage
@@ -56,6 +63,7 @@ function handleSearch() {
     const query = document.getElementById('tool-search').value.toLowerCase();
     const currentCategory = document.querySelector('.nav-btn.active').id.replace('btn-', '');
     const grid = document.getElementById('grid-' + currentCategory);
+    if (!grid) return;
     const cards = grid.querySelectorAll('.tool-card-wrapper');
 
     cards.forEach(card => {
@@ -93,7 +101,7 @@ function startClock() {
 function renderTools() {
     try {
         const tools = getTools();
-        const categories = ['common', 'bd', 'project', 'marketing'];
+        const categories = ['common', 'admin', 'bd', 'project', 'marketing'];
         categories.forEach(cat => {
             const grid = document.getElementById('grid-' + cat);
             if (!grid) return;

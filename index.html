@@ -13,6 +13,7 @@
     <nav class="nav-bar">
         <div class="nav-links">
             <button class="nav-btn active" id="btn-common" onclick="filterTools('common')">COMMON</button>
+            <button class="nav-btn" id="btn-admin" onclick="filterTools('admin')">ADMIN/SALES</button>
             <button class="nav-btn" id="btn-bd" onclick="filterTools('bd')">BD & SALES</button>
             <button class="nav-btn" id="btn-project" onclick="filterTools('project')">PROJECT</button>
             <button class="nav-btn" id="btn-marketing" onclick="filterTools('marketing')">MARKETING</button>
@@ -104,6 +105,7 @@
                 <label>หมวดหมู่หลัก (Category)</label>
                 <select id="tool-category" class="custom-select">
                     <option value="common">Common Tools</option>
+                    <option value="admin">Admin/พนักงานขาย</option>
                     <option value="bd">BD & Sales</option>
                     <option value="project">Project Management</option>
                     <option value="marketing">Marketing</option>
@@ -133,6 +135,12 @@
     <div class="category-section" id="section-common">
         <div class="section-title">Common Tools</div>
         <div class="tool-grid" id="grid-common"></div>
+    </div>
+
+    <!-- Admin/Sales Tools -->
+    <div class="category-section" id="section-admin">
+        <div class="section-title">Admin / พนักงานขาย</div>
+        <div class="tool-grid" id="grid-admin"></div>
     </div>
 
     <!-- Business Development & Sales -->
